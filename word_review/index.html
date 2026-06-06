@@ -1,0 +1,1585 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>小学语文复习系统 · 字词专项</title>
+    <script src="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2">
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-50: #eef2ff;
+            --primary-100: #e0e7ff;
+            --primary-200: #c7d2fe;
+            --primary-500: #6366f1;
+            --primary-600: #4f46e5;
+            --primary-700: #4338ca;
+            --accent-violet: #8b5cf6;
+            --accent-amber: #f59e0b;
+            --accent-rose: #f43f5e;
+            --accent-emerald: #10b981;
+            --accent-sky: #0ea5e9;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-400: #94a3b8;
+            --gray-500: #64748b;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1e293b;
+            --gray-900: #0f172a;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            --radius-sm: 8px;
+            --radius: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            --radius-2xl: 24px;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', sans-serif;
+            font-feature-settings: "kern" 0;
+    		text-rendering: optimizeLegibility;
+            background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 50%, #f5f3ff 100%);
+            padding: 24px;
+            min-height: 100vh;
+            color: var(--gray-800);
+            line-height: 1.6;
+        }
+        .app-container {
+            max-width: 1440px;
+            margin: 0 auto;
+        }
+        .app-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 28px;
+            padding: 0 4px;
+        }
+        .app-header .logo-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--primary-600), var(--accent-violet));
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 22px;
+            box-shadow: var(--shadow-md);
+        }
+        .app-header h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            letter-spacing: -0.02em;
+        }
+        .app-header .subtitle {
+            font-size: 0.85rem;
+            color: var(--gray-500);
+            font-weight: 400;
+            margin-top: 2px;
+        }
+        .main-layout {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+        .filter-panel {
+            width: 300px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-lg), 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            height: fit-content;
+            position: sticky;
+            top: 24px;
+            border: 1px solid rgba(226, 232, 240, 0.6);
+        }
+        .filter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 22px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.06), rgba(139, 92, 246, 0.04));
+            border-bottom: 1px solid rgba(226, 232, 240, 0.6);
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: var(--gray-800);
+            transition: background 0.2s;
+            user-select: none;
+        }
+        .filter-header:hover {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.06));
+        }
+        .filter-header .header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .filter-header .header-left i {
+            color: var(--primary-600);
+            font-size: 20px;
+        }
+        .filter-header .toggle-icon {
+            color: var(--gray-400);
+            font-size: 16px;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .filter-header.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+        .filter-content {
+            padding: 20px 22px;
+            transition: max-height 0.35s ease, opacity 0.3s ease, padding 0.35s ease;
+            max-height: 2000px;
+            opacity: 1;
+            overflow: hidden;
+        }
+        .filter-content.collapsed {
+            max-height: 0;
+            opacity: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+        .filter-group {
+            margin-bottom: 24px;
+        }
+        .filter-group:last-child {
+            margin-bottom: 8px;
+        }
+        .filter-group label.group-title {
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+            color: var(--gray-700);
+            font-size: 0.875rem;
+        }
+        .filter-group label.group-title i {
+            color: var(--primary-500);
+            font-size: 16px;
+        }
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .checkbox-group label {
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            color: var(--gray-600);
+            padding: 6px 12px;
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: 100px;
+            transition: all 0.2s;
+            user-select: none;
+        }
+        .checkbox-group label:hover {
+            background: var(--primary-50);
+            border-color: var(--primary-200);
+            color: var(--primary-700);
+        }
+        .checkbox-group label:has(input:checked) {
+            background: linear-gradient(135deg, var(--primary-50), #ede9fe);
+            border-color: var(--primary-200);
+            color: var(--primary-700);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.08);
+        }
+        input[type="checkbox"] {
+            accent-color: var(--primary-600);
+            width: 15px;
+            height: 15px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        hr {
+            margin: 16px 0;
+            border: none;
+            border-top: 1px solid var(--gray-200);
+        }
+        .filter-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 4px;
+        }
+        .btn-sm {
+            background: white;
+            border: 1px solid var(--gray-200);
+            padding: 7px 14px;
+            border-radius: 100px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: all 0.2s;
+            color: var(--gray-600);
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            flex: 1;
+            justify-content: center;
+        }
+        .btn-sm:hover {
+            background: var(--gray-50);
+            border-color: var(--gray-300);
+            color: var(--gray-800);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-sm);
+        }
+        .btn-sm i {
+            font-size: 14px;
+        }
+        .main-content {
+            flex: 1;
+            min-width: 280px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-lg), 0 0 0 1px rgba(255, 255, 255, 0.6) inset;
+            padding: 24px 28px;
+            border: 1px solid rgba(226, 232, 240, 0.5);
+            transition: box-shadow 0.3s, transform 0.3s;
+        }
+        .card:hover {
+            box-shadow: var(--shadow-xl), 0 0 0 1px rgba(255, 255, 255, 0.6) inset;
+        }
+        .stats-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .progress-area {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex: 1;
+            min-width: 220px;
+        }
+        .progress-area .progress-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            color: var(--gray-700);
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+        .progress-area .progress-label i {
+            color: var(--primary-500);
+            font-size: 18px;
+        }
+        .progress-bar {
+            flex: 1;
+            max-width: 280px;
+            height: 10px;
+            background: var(--gray-200);
+            border-radius: 100px;
+            overflow: hidden;
+            position: relative;
+        }
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--primary-500), var(--accent-violet), var(--primary-600));
+            border-radius: 100px;
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(100%);
+            }
+        }
+        .percent-text {
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: var(--primary-600);
+            min-width: 36px;
+        }
+        .stats-text {
+            font-size: 0.8rem;
+            color: var(--gray-500);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .stats-text i {
+            color: var(--gray-400);
+        }
+        .list-card {
+            padding: 20px 24px;
+        }
+        .list-card .card-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--gray-800);
+            margin-bottom: 16px;
+        }
+        .list-card .card-title i {
+            color: var(--primary-500);
+            font-size: 20px;
+        }
+        .question-list {
+            background: var(--gray-50);
+            border-radius: var(--radius-xl);
+            padding: 6px;
+            max-height: 380px;
+            overflow-y: auto;
+            border: 1px solid var(--gray-200);
+        }
+        .question-list::-webkit-scrollbar {
+            width: 6px;
+        }
+        .question-list::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .question-list::-webkit-scrollbar-thumb {
+            background: var(--gray-300);
+            border-radius: 100px;
+        }
+        .question-list::-webkit-scrollbar-thumb:hover {
+            background: var(--gray-400);
+        }
+        .question-list-item {
+            padding: 12px 16px;
+            border-radius: var(--radius-lg);
+            cursor: pointer;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 4px;
+            transition: all 0.2s;
+            color: var(--gray-700);
+            border: 1px solid transparent;
+        }
+        .question-list-item:last-child {
+            margin-bottom: 0;
+        }
+        .question-list-item:hover {
+            background: white;
+            border-color: var(--primary-200);
+            box-shadow: var(--shadow-sm);
+            transform: translateX(2px);
+        }
+        .question-list-item.selected {
+            background: linear-gradient(135deg, var(--primary-50), #ede9fe);
+            border-color: var(--primary-200);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.08), var(--shadow-sm);
+            font-weight: 600;
+            color: var(--primary-700);
+        }
+        .status-icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 16px;
+        }
+        .status-icon .ph-check-circle {
+            color: var(--accent-emerald);
+        }
+        .status-icon .ph-x-circle {
+            color: var(--accent-rose);
+        }
+        .status-icon .ph-circle {
+            color: var(--gray-300);
+        }
+        .grade-badge {
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 100px;
+            background: var(--primary-100);
+            color: var(--primary-700);
+            flex-shrink: 0;
+        }
+        .fav-indicator {
+            margin-left: auto;
+            font-size: 14px;
+            color: var(--accent-amber);
+        }
+        .question-meta {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, var(--primary-50), #ede9fe);
+            padding: 8px 18px;
+            border-radius: 100px;
+            font-size: 0.8rem;
+            color: var(--primary-700);
+            font-weight: 600;
+            margin-bottom: 20px;
+            border: 1px solid var(--primary-200);
+        }
+        .question-meta i {
+            font-size: 14px;
+        }
+        .question-text {
+            font-size: 1.35rem;
+            font-weight: 700;
+            line-height: 1.5;
+            margin-bottom: 28px;
+            color: var(--gray-900);
+            letter-spacing: -0.01em;
+        }
+        .options-area {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .option-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 20px;
+            background: white;
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius-xl);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            font-size: 1rem;
+            color: var(--gray-700);
+            font-weight: 500;
+        }
+        .option-item:hover {
+            background: var(--primary-50);
+            border-color: var(--primary-300);
+            transform: translateX(4px);
+            box-shadow: var(--shadow-md);
+        }
+        .option-item:has(input:checked) {
+            background: linear-gradient(135deg, var(--primary-50), #ede9fe);
+            border-color: var(--primary-500);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1), var(--shadow-md);
+            color: var(--primary-700);
+        }
+        input[type="radio"] {
+            accent-color: var(--primary-600);
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        .feedback {
+            background: linear-gradient(135deg, var(--gray-50), #f8fafc);
+            border-radius: var(--radius-xl);
+            padding: 18px 22px;
+            margin: 20px 0;
+            font-size: 0.9rem;
+            color: var(--gray-700);
+            border: 1px solid var(--gray-200);
+            line-height: 1.7;
+        }
+        .feedback strong {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 1rem;
+            margin-bottom: 6px;
+        }
+        .feedback .correct-badge {
+            color: var(--accent-emerald);
+        }
+        .feedback .wrong-badge {
+            color: var(--accent-rose);
+        }
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0 10px;
+        }
+        button {
+            background: white;
+            border: 1.5px solid var(--gray-200);
+            padding: 10px 22px;
+            border-radius: 100px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            color: var(--gray-700);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: inherit;
+        }
+        button:hover {
+            background: var(--gray-50);
+            border-color: var(--gray-300);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        button:active {
+            transform: translateY(0);
+        }
+        button i {
+            font-size: 16px;
+        }
+        button.primary {
+            background: linear-gradient(135deg, var(--primary-600), var(--accent-violet));
+            color: white;
+            border: none;
+            box-shadow: 0 4px 14px rgba(79, 70, 229, 0.3);
+        }
+        button.primary:hover {
+            background: linear-gradient(135deg, var(--primary-700), #7c3aed);
+            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+            transform: translateY(-2px);
+        }
+        button.danger {
+            color: var(--accent-rose);
+            border-color: #fecdd3;
+        }
+        button.danger:hover {
+            background: #fff1f2;
+            border-color: #fda4af;
+        }
+        button.warning {
+            color: var(--accent-amber);
+            border-color: #fde68a;
+        }
+        button.warning:hover {
+            background: #fffbeb;
+            border-color: #fcd34d;
+        }
+        .toolbar {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--gray-200);
+            flex-wrap: wrap;
+        }
+        .empty-state {
+            padding: 40px 20px;
+            text-align: center;
+            color: var(--gray-400);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+        .empty-state i {
+            font-size: 40px;
+            color: var(--gray-300);
+        }
+        .empty-state p {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        .hint-text {
+            font-size: 0.8rem;
+            color: var(--gray-400);
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        @media (max-width: 860px) {
+            body {
+                padding: 16px;
+            }
+            .filter-panel {
+                width: 100%;
+                position: static;
+            }
+            .main-layout {
+                flex-direction: column;
+            }
+            .app-header h1 {
+                font-size: 1.25rem;
+            }
+            .question-text {
+                font-size: 1.15rem;
+            }
+            .stats-bar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .progress-bar {
+                max-width: 100%;
+                width: 100%;
+            }
+            .toolbar {
+                justify-content: flex-start;
+            }
+        }
+        @media (max-width: 480px) {
+            .card {
+                padding: 18px 16px;
+                border-radius: var(--radius-lg);
+            }
+            .button-group {
+                justify-content: stretch;
+            }
+            .button-group button {
+                flex: 1;
+                justify-content: center;
+            }
+        }
+    </style>
+    <base target="_blank">
+</head>
+<body>
+    <div class="app-container">
+        <div class="app-header">
+            <div class="logo-icon"><i class="ph-fill ph-book-open-text"></i></div>
+            <div>
+                <h1>小学语文复习系统</h1>
+                <div class="subtitle">字词专项 · 智能练习 · 期末高频易错甄选</div>
+            </div>
+        </div>
+        <div class="main-layout">
+            <div class="filter-panel">
+                <div class="filter-header" id="filterToggle">
+                    <div class="header-left"><i class="ph ph-faders"></i><span>筛选面板</span></div>
+                    <i class="ph ph-caret-down toggle-icon" id="toggleArrow"></i>
+                </div>
+                <div class="filter-content" id="filterContent">
+                    <div class="filter-group">
+                        <label class="group-title"><i class="ph ph-books"></i>年级</label>
+                        <div class="checkbox-group" id="gradeGroup">
+                            <label><input type="checkbox" value="1-3" checked> 1~3年级</label>
+                            <label><input type="checkbox" value="4" checked> 4年级</label>
+                            <label><input type="checkbox" value="5" checked> 5年级</label>
+                            <label><input type="checkbox" value="6" checked> 6年级</label>
+                        </div>
+                    </div>
+                    <div class="filter-group">
+                        <label class="group-title"><i class="ph ph-article"></i>题型</label>
+                        <div class="checkbox-group" id="typeGroup">
+                            <label><input type="checkbox" value="choice" checked> 选择题</label>
+                            <label><input type="checkbox" value="judge" checked> 判断题</label>
+                        </div>
+                    </div>
+                    <div class="filter-group">
+                        <label class="group-title"><i class="ph ph-tag"></i>类别</label>
+                        <div class="checkbox-group" id="categoryGroup">
+                            <label><input type="checkbox" value="字音" checked> 字音</label>
+                            <label><input type="checkbox" value="字形" checked> 字形</label>
+                            <label><input type="checkbox" value="多音字" checked> 多音字</label>
+                            <label><input type="checkbox" value="形近字" checked> 形近字</label>
+                            <label><input type="checkbox" value="笔顺" checked> 笔顺</label>
+                            <label><input type="checkbox" value="部首" checked> 部首</label>
+                            <label><input type="checkbox" value="成语运用" checked> 成语运用</label>
+                          	<label><input type="checkbox" value="字义" checked> 字义</label>
+                        </div>
+                    </div>
+                    <div class="filter-group">
+                        <label class="group-title"><i class="ph ph-target"></i>状态</label>
+                        <div class="checkbox-group" id="stateGroup">
+                            <label><input type="checkbox" id="onlyUndone"> 只看未做</label>
+                            <label><input type="checkbox" id="onlyWrong"> 只看错题本</label>
+                            <label><input type="checkbox" id="onlyFav"> 只看收藏夹</label>
+                        </div>
+                    </div>
+                    <div class="filter-actions">
+                        <button class="btn-sm" id="selectAllBtn"><i class="ph ph-check-square"></i>全选</button>
+                        <button class="btn-sm" id="clearFilterBtn"><i class="ph ph-square"></i>清空</button>
+                    </div>
+                </div>
+            </div>
+            <div class="main-content">
+                <div class="card">
+                    <div class="stats-bar">
+                        <div class="progress-area">
+                            <div class="progress-label"><i class="ph ph-chart-bar"></i><span>完成度</span></div>
+                            <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+                            <span class="percent-text" id="percentText">0%</span>
+                        </div>
+                        <div class="stats-text" id="statsLabel"><i class="ph ph-info"></i><span>总题数：0 | 已做：0 | 正确：0 | 错题本：0 | 收藏：0</span></div>
+                    </div>
+                </div>
+                <div class="card list-card">
+                    <div class="card-title"><i class="ph ph-list-dashes"></i><span>题目列表</span></div>
+                    <div id="questionListContainer" class="question-list">
+                        <div class="empty-state"><i class="ph ph-clipboard-text"></i><p>暂无题目，请添加题库数据</p></div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div id="questionMeta" class="question-meta"><i class="ph ph-question"></i>未选择题目</div>
+                    <div id="questionPrompt" class="question-text">请从上方选择一道题目开始练习</div>
+                    <div id="optionsArea" class="options-area"></div>
+                    <div id="feedbackArea" class="feedback"></div>
+                    <div class="button-group">
+                        <button id="submitBtn" class="primary"><i class="ph ph-paper-plane-right"></i>提交答案</button>
+                        <button id="prevBtn"><i class="ph ph-caret-left"></i>上一题</button>
+                        <button id="nextBtn">下一题<i class="ph ph-caret-right"></i></button>
+                        <button id="favBtn"><i class="ph ph-star"></i>收藏</button>
+                        <button id="wrongBtn"><i class="ph ph-push-pin"></i>错题本</button>
+                    </div>
+                    <div class="toolbar">
+                        <button id="showWrongBtn" class="warning"><i class="ph ph-book"></i>错题本视图</button>
+                        <button id="showFavBtn" class="warning"><i class="ph ph-star"></i>收藏夹视图</button>
+                        <button id="clearWrongBtn" class="danger"><i class="ph ph-trash"></i>清空错题本</button>
+                        <button id="clearFavBtn" class="danger"><i class="ph ph-trash"></i>清空收藏夹</button>
+                        <button id="clearHistoryBtn" class="danger"><i class="ph ph-trash"></i>清空记录</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================================
+        // ===================== 题库数据区域 =====================
+        // ============================================================
+        let questions = [];
+
+        // ========== 20道期末高频易错字词甄选卷（1~3年级） ==========
+        questions.push({
+            id: 1,
+            grade: "1-3",
+            type: "choice",
+            category: "字音",
+            prompt: "下列词语中，加点字的读音有误的一项是",
+            options: ["海滨（bīn）", "钥匙（shi）", "海鸥（ōu）", "面包渣（chá）"],
+            answer: "面包渣（chá）",
+            explain: "「渣」应读 zhā（第一声），而非 chá。学生常因形近字「茶（chá）」的干扰而读错声调，因此D是唯一错误的选项。A项「滨」读bīn（前鼻音），易被方言误读为bīnɡ，但标注正确；B项「匙」在「钥匙」中读轻声shi，正确；C项「鸥」读ōu，正确。"
+        });
+        questions.push({
+            id: 2,
+            grade: "1-3",
+            type: "choice",
+            category: "多音字",
+            prompt: "下列加点字读音完全相同的一组是",
+            options: ["处理 — 处处", "假期 — 假装", "几乎 — 茶几", "答应 — 答案"],
+            answer: "几乎 — 茶几",
+            explain: "C项「几乎」和「茶几」中的「几」都读 jī，表示接近或矮小的桌子，读音完全相同。A项「处理」的「处」读chǔ（动词），「处处」的「处」读chù（名词/副词）；B项「假期」的「假」读jià，「假装」的「假」读jiǎ；D项「答应」的「答」读dā，「答案」的「答」读dá。"
+        });
+        questions.push({
+            id: 3,
+            grade: "1-3",
+            type: "choice",
+            category: "形近字",
+            prompt: "下列词语中，书写有错误的一项是",
+            options: ["已经", "飘扬", "勇敢", "以经"],
+            answer: "以经",
+            explain: "「已经」表示事情完成，应当使用「已」（竖弯钩出头）。D选项写成了「以」（竖提不出头），属于同音字误用。这是低年级最常见的错别字类型之一。"
+        });
+        questions.push({
+            id: 4,
+            grade: "1-3",
+            type: "choice",
+            category: "字形",
+            prompt: "下列每组词语中，有一个字写错了，把它选出来",
+            options: ["园桌", "晴天", "口渴", "带领"],
+            answer: "园桌",
+            explain: "「圆桌」指的是形状是圆形的桌子，应当用表示形状的「圆」（囗字框，里面是员）。A选项写成了「园」，通常用于「公园」「花园」或「校园」，表示地点。此处属于典型的同音字张冠李戴。"
+        });
+        questions.push({
+            id: 5,
+            grade: "1-3",
+            type: "choice",
+            category: "字形",
+            prompt: "下面词语中，与「引人注目」的「注」字意思相同的是",
+            options: ["注射", "注意", "注定", "批注"],
+            answer: "注意",
+            explain: "「引人注目」的意思是引起人注意，「注」指（精神、目光等）集中。B项「注意」的「注」也是把意志放到某一方面，与例句意思一致。A项「注射」的「注」是灌入；C项「注定」的「注」是预先决定；D项「批注」的「注」是解释字句的文字。"
+        });
+        questions.push({
+            id: 6,
+            grade: "1-3",
+            type: "choice",
+            category: "笔顺",
+            prompt: "「爽」字的笔顺，下列说法正确的一项是",
+            options: ["共10画，第三笔是捺", "共11画，第三笔是点", "共12画，第一笔是撇", "共11画，第一笔是横"],
+            answer: "共11画，第三笔是点",
+            explain: "「爽」的正确笔顺为：横、撇、点、撇、点、撇、点、撇、点、撇、捺。全字共11画。第一笔是横，第三笔是点。A项画数错，C项画数错且第一笔错，D项第一笔正确但选项整体表述不完整，只有B项完全符合规范。"
+        });
+        questions.push({
+            id: 7,
+            grade: "1-3",
+            type: "choice",
+            category: "部首",
+            prompt: "用部首查字法查「灶」字，下列说法正确的一项是",
+            options: ["先查「火」部，除去部首还有3画", "先查「火」部，除去部首还有2画", "先查「土」部，除去部首还有4画", "先查「丿」部，除去部首还有5画"],
+            answer: "先查「火」部，除去部首还有3画",
+            explain: "「灶」字由左边的「火」和右边的「土」组成。按照部首查字法，应查「火」部。除去部首「火」（4画），右边剩下的部分是「土」，「土」共有3画（横、竖、横）。因此A项正确。"
+        });
+        questions.push({
+            id: 8,
+            grade: "1-3",
+            type: "choice",
+            category: "多音字",
+            prompt: "下列加点字的读音选择正确的一项是\n小松鼠长（ ）得很长（ ），尾巴都碰到地了。",
+            options: ["zhǎnɡ — chánɡ", "chánɡ — zhǎnɡ", "zhǎnɡ — zhǎnɡ", "chánɡ — chánɡ"],
+            answer: "zhǎnɡ — chánɡ",
+            explain: "前一个「长」表示生物体在发育过程中体积增大，读 zhǎnɡ（生长）。后一个「长」表示两点之间的距离大，与「短」相对，读 chánɡ（长短）。因此A项搭配正确。"
+        });
+        questions.push({
+            id: 9,
+            grade: "1-3",
+            type: "choice",
+            category: "字形",
+            prompt: "猜一猜：「赊」字最可能与下列哪个选项有关？",
+            options: ["书籍装订", "买卖交易", "多余冗余", "石头沙砾"],
+            answer: "买卖交易",
+            explain: "「赊」由「贝」+「佘」组成。「贝」字旁在古文字中代表贝壳（货币），因此凡带「贝」的字多与钱财、贸易有关。「赊」在现代汉语中意为「赊账、赊欠」，即买卖货物时延期付款或收款，这正是金融交易行为。A项通常对应「书」或「籍」（竹字头），C项对应「余」或「赘」，D项对应「石」字旁。"
+        });
+        questions.push({
+            id: 10,
+            grade: "1-3",
+            type: "choice",
+            category: "多音字",
+            prompt: "下面加点字中，读音与其他三个不同的一项是",
+            options: ["假期", "假日", "假装", "假条"],
+            answer: "假装",
+            explain: "A、B、D三项中的「假」都表示按照规定或经过批准暂时不工作或不学习的时间，读 jià。C项「假装」表示故意做出某种动作或姿态来掩饰真相，读 jiǎ。题目要求选「不同」的一项，故选C。"
+        });
+        questions.push({
+            id: 11,
+            grade: "1-3",
+            type: "choice",
+            category: "多音字",
+            prompt: "下列句子中，加点字读音标注正确的一项是",
+            options: ["他跑得得（dé）太快了。", "我只只（zhī）有一只小狗。", "你得（děi）自己完成作业。", "天空（kònɡ）中飘着白云。"],
+            answer: "你得（děi）自己完成作业。",
+            explain: "C项「你得自己完成」中「得」表示必须、需要的意思，读 děi，标注正确。A项「跑得快」中「得」是结构助词，应读轻声de；B项「只有」中「只」表示仅有，读zhǐ；D项「空中」指天空中，读kōnɡ，读kònɡ时表示闲着、空缺。"
+        });
+        questions.push({
+            id: 12,
+            grade: "1-3",
+            type: "choice",
+            category: "形近字",
+            prompt: "选字填空，正确的一项是\n我（ ）经做完作业了，正（ ）收拾书包。",
+            options: ["以 — 在", "已 — 再", "已 — 在", "以 — 再"],
+            answer: "已 — 在",
+            explain: "第一空：「已经」表示动作完成，用「已」。第二空：「正在收拾」表示动作进行中，用「在」。「再」表示又一次（如「再见」「再次」），不符合「收拾书包」这个当下进行的动作语境。故选C。"
+        });
+        questions.push({
+            id: 13,
+            grade: "1-3",
+            type: "choice",
+            category: "字形",
+            prompt: "下列词语书写完全正确的一项是",
+            options: ["吹佛 — 仿佛", "招乎 — 招呼", "苍翠 — 药材", "到影 — 倒影"],
+            answer: "苍翠 — 药材",
+            explain: "C项两个词均无错别字。A项「吹佛」应为「吹拂」，「拂」是提手旁，表示轻轻擦过；B项「招乎」应为「招呼」，「呼」是口字旁，表示用语言或动作问候；D项「到影」应为「倒影」，「倒」是单人旁，表示倒立的影子。"
+        });
+        questions.push({
+            id: 14,
+            grade: "1-3",
+            type: "choice",
+            category: "笔顺",
+            prompt: "下列说法错误的一项是",
+            options: ["「车」做左偏旁时，最后一笔「横」变为「提」", "「互」字共4画，第二笔是撇折", "「勇」字第四笔是横折", "「及」字的第一笔是横折折撇"],
+            answer: "「及」字的第一笔是横折折撇",
+            explain: "「及」的笔顺是：撇、横折折撇、捺。第一笔是「撇」，不是「横折折撇」。故D项错误。A项是汉字书写规则正确；B项「互」笔顺为横、撇折、横撇、横，第二笔确实是撇折；C项「勇」笔顺第四笔是横折，正确。"
+        });
+        questions.push({
+            id: 15,
+            grade: "1-3",
+            type: "choice",
+            category: "字形",
+            prompt: "下列加点字与「合拢」中「拢」的意思最接近的是",
+            options: ["拢共", "收拢", "拢岸", "拢总"],
+            answer: "收拢",
+            explain: "「合拢」指合到一起，「拢」是合上的意思。B项「收拢」指把散开的聚集起来，也有「合上」的意思，与「合拢」的「拢」义项最接近。A项「拢共」指总共；C项「拢岸」指船只靠岸；D项「拢总」指汇总。"
+        });
+        questions.push({
+            id: 16,
+            grade: "1-3",
+            type: "choice",
+            category: "字形",
+            prompt: "下列词语中，书写完全正确的一项是",
+            options: ["在见", "汽球", "心情", "明片"],
+            answer: "心情",
+            explain: "C项「心情」书写正确。A项应为「再见」（再一次见面），「再」表示第二次；B项应为「气球」（气体充起来的球），「气」指气体；D项应为「名片」（介绍身份的卡片），「名」指姓名。"
+        });
+        questions.push({
+            id: 17,
+            grade: "1-3",
+            type: "choice",
+            category: "字音",
+            prompt: "「旅」字的拼音标注正确的一项是",
+            options: ["lǔ xínɡ", "lǚ xínɡ", "luǐ xínɡ", "lú xínɡ"],
+            answer: "lǚ xínɡ",
+            explain: "「旅」的韵母是「ü」，当「ü」前面是声母「l」时，两点不能省略。正确拼音是 lǚ。A项「lǔ」是「鲁」的拼音；C项「luǐ」不存在；D项声调错误。"
+        });
+        questions.push({
+            id: 18,
+            grade: "1-3",
+            type: "choice",
+            category: "形近字",
+            prompt: "下面词语中，有错别字的一项是",
+            options: ["蜜蜂", "担心", "历害", "骄傲"],
+            answer: "历害",
+            explain: "「厉害」表示剧烈、凶猛，应该用「厉」（厂字头里面是万），意为猛烈。C选项写成了「历」（厂字头里面是力），通常用于「历史」「日历」。这是三年级作文中最常见的错别字之一。"
+        });
+        questions.push({
+            id: 19,
+            grade: "1-3",
+            type: "choice",
+            category: "部首",
+            prompt: "用部首查字法查「冷」字，下列说法正确的是",
+            options: ["先查「冫」部，除去部首还有5画，读音是lěnɡ", "先查「令」部，除去部首还有2画", "先查「冫」部，除去部首还有4画，读音是línɡ", "先查「冰」部，除去部首还有3画"],
+            answer: "先查「冫」部，除去部首还有5画，读音是lěnɡ",
+            explain: "「冷」是左右结构，部首是左边的「冫」（两点水）。除去部首后，右边是「令」。「令」的笔顺是：撇、捺、点、横撇、点，共5画。读音是lěnɡ。因此A项完全正确。"
+        });
+        questions.push({
+            id: 20,
+            grade: "1-3",
+            type: "choice",
+            category: "多音字",
+            prompt: "给句中加点字选择正确读音，正确的一项是\n我们要重（ ）新称量一下这朵花的重（ ）量。",
+            options: ["zhònɡ — chónɡ", "chónɡ — zhònɡ", "zhònɡ — zhònɡ", "chónɡ — chónɡ"],
+            answer: "chónɡ — zhònɡ",
+            explain: "第一个「重」：表示再、反复，读 chónɡ（重新）。第二个「重」：表示分量，读 zhònɡ（重量）。出自部编版二年级上册《曹冲称象》一课，是该课的核心多音字考点。故选B。"
+        });
+      	// ========== 四年级期末高频易错字词甄选卷（99道） ==========
+        // 第一组：多音字·语境定音（1-15）
+        questions.push(
+          { id: 21, grade: "4", type: "choice", category: "多音字", prompt: "下列加点字读音完全相同的一组是", options: ["系鞋带 — 关系", "降落 — 投降", "宁可 — 宁愿", "少女 — 多少"], answer: "宁可 — 宁愿", explain: "C项：“宁可”和“宁愿”中的“宁”都读 nìng，表示情愿，读音完全相同。A项：系鞋带（jì）/ 关系（xì）；B项：降落（jiàng）/ 投降（xiáng）；D项：少女（shào）/ 多少（shǎo）。" },
+          { id: 22, grade: "4", type: "choice", category: "多音字", prompt: "弯弯曲曲（A.qū B.qǔ）的小路上，我们哼着小曲（A.qū B.qǔ）儿。", options: ["A—B", "B—A", "A—A", "B—B"], answer: "A—B", explain: "“弯弯曲曲”的“曲”表示弯曲，读 qū；“小曲儿”的“曲”表示乐曲，读 qǔ。故答案为 A—B。" },
+          { id: 23, grade: "4", type: "choice", category: "多音字", prompt: "下列加点字读音有错误的一项是", options: ["归还（huán）", "还有（hái）", "枝折花落（zhé）", "闷雷（mèn）"], answer: "枝折花落（zhé）", explain: "C项：“枝折花落”的“折”表示断（口语），应读 shé，不读 zhé。这是四年级下册《猫》一文中的重点词汇。" },
+          { id: 24, grade: "4", type: "choice", category: "多音字", prompt: "下列加点字读音全部正确的一项是", options: ["薄雾（báo）", "少女（shào）", "照相（xiānɡ）", "弯曲（qǔ）"], answer: "少女（shào）", explain: "B项正确。A项“薄雾”是书面语，读 bó；C项“照相”读 xiàng；D项“弯曲”读 qū。" },
+          { id: 25, grade: "4", type: "choice", category: "多音字", prompt: "下列加点字读音完全相同的一组是", options: ["将领 — 将来", "相同 — 相信", "挣扎 — 扎针", "要求 — 重要"], answer: "相同 — 相信", explain: "B项：“相同”和“相信”的“相”都读 xiāng。A项：将领（jiàng）/ 将来（jiāng）；C项：挣扎（zhá）/ 扎针（zhā）；D项：要求（yāo）/ 重要（yào）。" },
+          { id: 26, grade: "4", type: "choice", category: "多音字", prompt: "“他在屏（ ）风后面屏（ ）住呼吸。”括号中应填", options: ["pínɡ—bǐnɡ", "bǐnɡ—pínɡ", "pínɡ—pínɡ", "bǐnɡ—bǐnɡ"], answer: "pínɡ—bǐnɡ", explain: "“屏风”的“屏”读 píng；“屏住呼吸”的“屏”读 bǐng。理解字义与读音的对应关系即可。" },
+          { id: 27, grade: "4", type: "choice", category: "多音字", prompt: "下列加点字读音有错误的一项是", options: ["家雀儿（què）", "尽管（jǐn）", "洞穴（xué）", "模样（mú）"], answer: "家雀儿（què）", explain: "A项：“家雀儿”是北方方言，口语中“雀”读 qiǎo，不读 què。" },
+          { id: 28, grade: "4", type: "choice", category: "字音", prompt: "下列加点字读音标注正确的一项是", options: ["惩罚（chěnɡ）", "骨髓（suí）", "气氛（fèn）", "倾斜（qīnɡ）"], answer: "倾斜（qīnɡ）", explain: "D项正确。A项“惩罚”的“惩”读 chéng（二声）；B项“骨髓”的“髓”读 suǐ（三声）；C项“气氛”的“氛”读 fēn（一声）。" },
+          { id: 29, grade: "4", type: "choice", category: "多音字", prompt: "小强很强（A.qiánɡ B.qiǎnɡ C.jiànɡ）壮，性格却很倔强（A.qiánɡ B.qiǎnɡ C.jiànɡ）。", options: ["A—B", "A—C", "B—A", "C—C"], answer: "A—C", explain: "“强壮”读 qiáng；“倔强”读 jiàng。故答案为 A—C。" },
+          { id: 30, grade: "4", type: "choice", category: "字音", prompt: "下列加点字读音有错误的一项是", options: ["潜入（qiǎn）", "蝙蝠（biān）", "佩服（fú）", "研究（jiū）"], answer: "潜入（qiǎn）", explain: "A项：“潜入”的“潜”只有 qián 一个读音（第二声），极易误读为 qiǎn。" },
+          { id: 31, grade: "4", type: "choice", category: "多音字", prompt: "下列加点字读音有错误的一项是", options: ["血液（xiě）", "纪昌（jǐ）", "凶恶（è）", "尽管（jǐn）"], answer: "血液（xiě）", explain: "A项：“血液”是书面语，应读 xuè；口语“流血了”才读 xiě。" },
+          { id: 32, grade: "4", type: "choice", category: "多音字", prompt: "下列加点字读音全部正确的一项是", options: ["照相（xiànɡ）", "还是（huán）", "凶恶（wù）", "投降（jiànɡ）"], answer: "照相（xiànɡ）", explain: "A项正确。B项“还是”读 hái；C项“凶恶”读 è；D项“投降”读 xiáng。" },
+          { id: 33, grade: "4", type: "choice", category: "多音字", prompt: "脏（A.zānɡ B.zànɡ）衣服别和心脏（A.zānɡ B.zànɡ）放在一起洗。", options: ["A—B", "B—A", "A—A", "B—B"], answer: "A—B", explain: "“脏衣服”的“脏”读 zāng（不干净）；“心脏”的“脏”读 zàng（内脏）。" },
+          { id: 34, grade: "4", type: "choice", category: "多音字", prompt: "下列加点字读音有错误的一组是", options: ["铁钉（dīnɡ）—钉钉子（dìnɡ）", "号叫（háo）—号称（hào）", "记载（zǎi）—载重（zài）", "恶心（è）—厌恶（wù）"], answer: "恶心（è）—厌恶（wù）", explain: "D项错误。“恶心”的“恶”应读 ě（表示要呕吐的感觉），不读 è。" },
+          { id: 35, grade: "4", type: "choice", category: "字音", prompt: "下列加点字读音全部正确的一项是", options: ["笨拙（zhuó）", "花圃（pǔ）", "衣襟（jīnɡ）", "拯救（zhěn）"], answer: "花圃（pǔ）", explain: "B项正确。A项“笨拙”的“拙”读 zhuō；C项“衣襟”的“襟”读 jīn（前鼻音）；D项“拯救”的“拯”读 zhěng。" }
+        );
+        // 第二组：易错读音（16-28）
+        questions.push(
+          { id: 36, grade: "4", type: "choice", category: "字音", prompt: "下列加点字读音有误的一项是", options: ["骨髓（suí）", "慎重（shèn）", "花蕾（lěi）", "混乱（hùn）"], answer: "骨髓（suí）", explain: "A项：“骨髓”的“髓”读 suǐ（三声），不是 suí。学生极易受“随”字读音影响而误判。" },
+          { id: 37, grade: "4", type: "choice", category: "字音", prompt: "下列加点字读音全部正确的一项是", options: ["开凿（zuò）磕头（kē）", "红薯（shǔ）芋头（yǔ）芹菜（qíng）", "淌（tǎnɡ）血殷（yīn）切", "掐（xiàn）住捶（cuí）背"], answer: "淌（tǎnɡ）血殷（yīn）切", explain: "C项正确。A项“开凿”的“凿”读 záo；B项“芹菜”的“芹”读 qín；D项“掐”读 qiā，“捶”读 chuí。" },
+          { id: 38, grade: "4", type: "choice", category: "多音字", prompt: "下列加点字读音有错误的一项是", options: ["主角（jué）", "露面（lù）", "旋转（xuán）", "宁可（nìnɡ）"], answer: "露面（lù）", explain: "B项：“露面”是口语，应读 lòu，不读 lù。需区分“露脸（lòu）”与“露珠（lù）”。" },
+          { id: 39, grade: "4", type: "choice", category: "多音字", prompt: "下列加点字读音有误的是", options: ["躯干（ɡān）", "四肢（zhī）", "混沌（hùn）", "攀登（pān）"], answer: "躯干（ɡān）", explain: "A项：“躯干”的“干”读 gàn（指事物的主体或重要部分），不是 gān（干燥）。" },
+          { id: 40, grade: "4", type: "choice", category: "字音", prompt: "下列加点字读音有错误的一项是", options: ["障碍（zànɡ）", "揭开（jiē）", "攀登（pān）", "四肢（zhī）"], answer: "障碍（zànɡ）", explain: "A项：“障碍”的“障”读 zhàng（翘舌音），不是平舌 zàng。" },
+          { id: 41, grade: "4", type: "choice", category: "字音", prompt: "下列加点字读音全部正确的一项是", options: ["巫（wū）婆", "官绅（shēnɡ）", "开凿（zuò）", "流淌（tànɡ）"], answer: "巫（wū）婆", explain: "A项正确。B项“官绅”的“绅”读 shēn；C项“开凿”的“凿”读 záo；D项“流淌”的“淌”读 tǎng。" },
+          { id: 42, grade: "4", type: "choice", category: "字音", prompt: "下列加点字读音有错误的一项是", options: ["韭（jiǔ）菜", "青蒜（suàn）", "辣（nà）椒", "芋（yù）头"], answer: "辣（nà）椒", explain: "C项：“辣”的声母是 l（边音），读 là，不是 nà。这是 n/l 不分地区学生的典型易错题。" },
+          { id: 43, grade: "4", type: "choice", category: "字音", prompt: "下列词语中加点字读音相同的一组是", options: ["人声鼎沸 — 拂晓", "淮河 — 怀抱", "骨髓 — 心碎", "开凿 — 昨天"], answer: "淮河 — 怀抱", explain: "B项：“淮”与“怀”都读 huái。A项：沸（fèi）/ 拂（fú）；C项：髓（suǐ）/ 碎（suì）；D项：凿（záo）/ 昨（zuó）。" },
+          { id: 44, grade: "4", type: "choice", category: "字音", prompt: "下列加点字读音有错误的一项是", options: ["肇（zào）事", "逾（yú）越", "遭（zāo）殃", "殴（ōu）打"], answer: "肇（zào）事", explain: "A项：“肇”是翘舌音，读 zhào，不是平舌 zào。" },
+          { id: 45, grade: "4", type: "choice", category: "字音", prompt: "下列加点字读音标注正确的一项是", options: ["脸颊（xiá）", "堆砌（qiè）", "允许（rǔn）", "覆盖（fù）"], answer: "覆盖（fù）", explain: "D项正确。A项“脸颊”读 jiá；B项“堆砌”读 qì；C项“允许”读 yǔn（声母不是 r）。" },
+          { id: 46, grade: "4", type: "choice", category: "多音字", prompt: "下列加点字读音完全相同的一组是", options: ["宁可 — 宁静", "要求 — 重要", "系鞋带 — 关系", "降伏 — 投降"], answer: "降伏 — 投降", explain: "D项：“降伏”和“投降”中的“降”都读 xiáng。A项：宁可（nìng）/ 宁静（níng）；B项：要求（yāo）/ 重要（yào）；C项：系鞋带（jì）/ 关系（xì）。" },
+          { id: 47, grade: "4", type: "choice", category: "字音", prompt: "下列加点字读音有错误的一项是", options: ["奢侈（chǐ）", "窥伺（kuī）", "矢（shī）车菊", "抡（lūn）起"], answer: "矢（shī）车菊", explain: "C项：“矢”读 shǐ（三声），不是一声 shī。受“失”字读音影响导致的常见错误。" },
+          { id: 48, grade: "4", type: "choice", category: "多音字", prompt: "下列加点字读音有错误的一项是", options: ["应和（hé）", "慰藉（jiè）", "鸡冠（ɡuān）花", "剥削（bō）"], answer: "应和（hé）", explain: "A项：“应和”的“和”读 hè（跟着唱、附和），不是 hé。" }
+        );
+        // 第三组：形近字·同音字辨析（29-48）
+        questions.push(
+          { id: 49, grade: "4", type: "choice", category: "形近字", prompt: "下列词语书写有错误的一项是", options: ["严厉", "即然", "暮色", "拨打"], answer: "即然", explain: "B项：“即然”应为“既然”。“既”右半部分为“旡”，表示已经；“即”右半部分为“卩”，表示靠近、立刻。" },
+          { id: 50, grade: "4", type: "choice", category: "形近字", prompt: "下列词语中，错别字找出来", options: ["驾使", "茂盛", "手舞足蹈", "精忠报国"], answer: "驾使", explain: "A项：“驾使”应为“驾驶”。“驾”下面是“马”，与驭马有关；“架”下面是“木”，与支撑有关。" },
+          { id: 51, grade: "4", type: "choice", category: "形近字", prompt: "下列词语书写完全正确的一项是", options: ["严历", "发颤", "尤如", "祥细"], answer: "发颤", explain: "B项正确。A项“严历”应为“严厉”；C项“尤如”应为“犹如”；D项“祥细”应为“详细”。" },
+          { id: 52, grade: "4", type: "choice", category: "形近字", prompt: "选出书写有误的一项", options: ["云彩", "左故右盼", "灌溉", "赞叹"], answer: "左故右盼", explain: "B项：“左故右盼”应为“左顾右盼”。“顾”有回头看的意思，与“页”字旁相关；“故”与原因相关。" },
+          { id: 53, grade: "4", type: "choice", category: "形近字", prompt: "下列词语中，哪一个写法错了", options: ["拨打", "拔河", "泼水", "点辍"], answer: "点辍", explain: "D项：“点辍”应为“点缀”。“缀”是纟旁，表示连接、装饰；“辍”是车旁，表示停止。" },
+          { id: 54, grade: "4", type: "choice", category: "形近字", prompt: "下列词语书写完全正确的一项是", options: ["响午", "劫难", "推侧", "辟如"], answer: "劫难", explain: "B项正确。A项“响午”应为“晌午”；C项“推侧”应为“推测”；D项“辟如”应为“譬如”。" },
+          { id: 55, grade: "4", type: "choice", category: "形近字", prompt: "选字填空，正确的是（ ）：天边最后一（ ）光渐渐消失，夜（ ）降临。", options: ["屡—幕", "缕—幕", "缕—墓", "楼—暮"], answer: "缕—幕", explain: "“一缕光”的“缕”是纟旁，形容光线细长；“夜幕降临”的“幕”是巾字旁，指帐篷、覆盖的东西。" },
+          { id: 56, grade: "4", type: "choice", category: "形近字", prompt: "下列词语中，有错别字的是", options: ["无缘无故", "精疲力歇", "重整旗鼓", "愤愤不平"], answer: "精疲力歇", explain: "B项：“精疲力歇”应为“精疲力竭”。“竭”是“立”字旁，表示完、尽；“歇”表示休息。" },
+          { id: 57, grade: "4", type: "choice", category: "形近字", prompt: "选字填空：我们要先写好演讲的（ ）纲。", options: ["题", "提"], answer: "提", explain: "“提纲”的“提”是提手旁，表示提起、提出。此处指提出要点，故用“提”。" },
+          { id: 58, grade: "4", type: "choice", category: "形近字", prompt: "下列词语书写有误的是", options: ["自豪", "毫米", "毫迈", "毫不费力"], answer: "毫迈", explain: "C项：“毫迈”应为“豪迈”。“豪”下面是“豕”，指气魄大；“毫”下面是“毛”，指细毛。" },
+          { id: 59, grade: "4", type: "choice", category: "形近字", prompt: "下列词语书写完全正确的一项是", options: ["枯委", "选泽", "地址", "山蜂"], answer: "地址", explain: "C项正确。A项“枯委”应为“枯萎”；B项“选泽”应为“选择”；D项“山蜂”应为“山峰”。" },
+          { id: 60, grade: "4", type: "choice", category: "字义", prompt: "下列加点字与“慎重”的“慎”意思最接近的是", options: ["小心", "真实", "甚至", "渗透"], answer: "小心", explain: "“慎重”的“慎”意思是谨慎、小心。A项“小心”意思最接近。" },
+          { id: 61, grade: "4", type: "choice", category: "形近字", prompt: "下列词语书写有错误的一项是", options: ["胸怀", "报负", "疑惑", "训斥"], answer: "报负", explain: "B项：“报负”应为“抱负”。“抱”是提手旁，指用手臂围住；“负”引申为志向。" },
+          { id: 62, grade: "4", type: "choice", category: "形近字", prompt: "下列词语中，错别字找出来", options: ["清淅", "忘怀", "赞叹", "效仿"], answer: "清淅", explain: "A项：“清淅”应为“清晰”。“晰”是日字旁，指清楚明白；“淅”是氵旁，指淘米或象声词。" },
+          { id: 63, grade: "4", type: "choice", category: "形近字", prompt: "下列各组词语中，只错了一个字的一项是", options: ["迫不及待 川流不息 一如既往", "迫不急待 再接再厉 别出心裁", "穿流不息 呕心沥血 按步就班", "变本加厉 和颜悦色 蜂拥而至"], answer: "迫不急待 再接再厉 别出心裁", explain: "B组中“迫不急待”应为“迫不及待”（“及”误写为“急”），只错一个字。A组全对；C组错两个字（“穿”应为“川”，“步”应为“部”）；D组全对。" },
+          { id: 64, grade: "4", type: "choice", category: "形近字", prompt: "下列词语书写完全正确的一项是", options: ["既使", "即然", "立即", "既将"], answer: "立即", explain: "C项正确。A项“既使”应为“即使”；B项“即然”应为“既然”；D项“既将”应为“即将”。" },
+          { id: 65, grade: "4", type: "choice", category: "字义", prompt: "下列加点字与“缘故”的“缘”意思相同的是", options: ["边缘", "缘分", "缘由", "缘木求鱼"], answer: "缘由", explain: "“缘故”的“缘”意思是原因。“缘由”的“缘”也是原因，意思相同。" },
+          { id: 66, grade: "4", type: "choice", category: "形近字", prompt: "下列词语中，有错别字的是", options: ["违抗", "著明", "获得", "滋润"], answer: "著明", explain: "B项：“著明”应为“著名”。“著”是艹字头，指明显；“名”指名字、名声。" },
+          { id: 67, grade: "4", type: "choice", category: "形近字", prompt: "下列词语书写完全正确的一项是", options: ["辫子", "辨论", "花瓣", "争辩"], answer: "争辩", explain: "D项正确。A项“辫子”指头发编成的带状物；B项“辨论”应为“辩论”（言字旁）；C项“花瓣”指花的一部分（瓜字旁）。" },
+          { id: 68, grade: "4", type: "choice", category: "字义", prompt: "下列加点字与“庞大”的“庞”意思最接近的是", options: ["宠爱", "脸庞", "庞大", "庞杂"], answer: "庞大", explain: "“庞大”的“庞”意思是巨大。C项“庞大”与题干意思完全相同。" }
+        );
+        // 第四组：笔顺·笔画·部首查字法（49-60）
+        questions.push(
+          { id: 69, grade: "4", type: "choice", category: "笔顺", prompt: "“戎”字的笔顺，下列说法正确的是", options: ["第一笔是横", "第二笔是撇", "第三笔是横", "第四笔是撇"], answer: "第一笔是横", explain: "“戎”字笔顺：横、撇、斜钩、撇、点。第一笔是横。" },
+          { id: 70, grade: "4", type: "choice", category: "笔顺", prompt: "“卵”字的笔画数是", options: ["6画", "7画", "8画", "9画"], answer: "7画", explain: "“卵”字共7画，笔顺：撇、竖提、点、撇、横折钩、竖、点。" },
+          { id: 71, grade: "4", type: "choice", category: "部首", prompt: "下列汉字中，部首判断错误的一项是", options: ["竟（立部）", "缘（纟部）", "廷（壬部）", "顾（页部）"], answer: "廷（壬部）", explain: "C项错误。“廷”的部首是“廴”，不是“壬部”。" },
+          { id: 72, grade: "4", type: "choice", category: "部首", prompt: "“佩”字用部首查字法，应先查（ ）部，再查（ ）画。", options: ["亻；6", "亻；5", "佩；0", "巾；6"], answer: "亻；6", explain: "先查“亻”部，除去部首后剩余部分共6画（撇、横折钩、横、横、竖）。" },
+          { id: 73, grade: "4", type: "choice", category: "笔顺", prompt: "下列汉字书写时，撇捺要舒展的是", options: ["英", "因", "川", "习"], answer: "英", explain: "“英”是上下结构，上面的“艹”和下面的“央”都有撇捺，书写时需舒展以盖住下方。" },
+          { id: 74, grade: "4", type: "choice", category: "笔顺", prompt: "“肃”字的笔顺，下列说法正确的是", options: ["第一笔是横折", "第五笔是撇", "最后一笔是竖", "共8画"], answer: "第五笔是撇", explain: "“肃”笔顺：横折、横、横、竖、撇、竖、撇、点（共8画）。第五笔是撇。" },
+          { id: 75, grade: "4", type: "choice", category: "部首", prompt: "“赞”字的部首是", options: ["先", "贝", "兟", "日"], answer: "贝", explain: "“赞”是上下结构，下半部分为“贝”，通常查“贝”部。" },
+          { id: 76, grade: "4", type: "choice", category: "笔顺", prompt: "“疑”字的笔画数是", options: ["14画", "15画", "16画", "17画"], answer: "16画", explain: "“疑”字共16画，笔顺复杂，容易漏数。" },
+          { id: 77, grade: "4", type: "choice", category: "笔顺", prompt: "下列汉字中，笔顺规则是“先外后内再封口”的是", options: ["周", "同", "国", "向"], answer: "国", explain: "“国”是全包围结构，符合“先外后内再封口”的笔顺规则。" },
+          { id: 78, grade: "4", type: "choice", category: "部首", prompt: "“隙”字用部首查字法，应先查（ ）部。", options: ["阝", "小", "日", "丨"], answer: "阝", explain: "“隙”左边是“阝”（左耳刀），应先查“阝”部。" },
+          { id: 79, grade: "4", type: "choice", category: "笔顺", prompt: "“鼠”字的笔顺，下列说法正确的是", options: ["第一笔是竖", "第四笔是横折", "第八笔是撇", "共13画"], answer: "第四笔是横折", explain: "“鼠”笔顺：撇、竖、横、横折……第四笔是横折。共13画。" },
+          { id: 80, grade: "4", type: "choice", category: "部首", prompt: "“鹿”字的部首是", options: ["广", "鹿", "比", "匕"], answer: "鹿", explain: "“鹿”是独体字，本身就是部首，称为“鹿”部。" }
+        );
+        // 第五组：一字多义·字义辨析（61-75）
+        questions.push(
+          { id: 81, grade: "4", type: "choice", category: "字义", prompt: "下列加点字与“题西林壁”的“题”意思相同的是", options: ["题目", "题字", "题材", "习题"], answer: "题字", explain: "“题西林壁”的“题”意思是书写、题写。“题字”的“题”也是书写的意思。" },
+          { id: 82, grade: "4", type: "choice", category: "字义", prompt: "“梅须逊雪三分白”中“逊”的意思是", options: ["谦虚", "差、不如", "退避", "让出"], answer: "差、不如", explain: "“逊”在诗句中意为“差、不如”，指梅花在洁白上比雪差三分。" },
+          { id: 83, grade: "4", type: "choice", category: "字义", prompt: "下列加点字与“可怜九月初三夜”的“可怜”意思相同的是", options: ["可怜的孩子", "可爱", "值得怜悯", "可惜"], answer: "可爱", explain: "古诗文中“可怜”常有“可爱”之意，此处指可爱的夜晚。" },
+          { id: 84, grade: "4", type: "choice", category: "字义", prompt: "“尝与诸小儿游”中“尝”的意思是", options: ["品尝", "曾经", "尝试", "常常"], answer: "曾经", explain: "“尝”在文言文中常作“曾经”讲，如《王戎不取道旁李》。" },
+          { id: 85, grade: "4", type: "choice", category: "字义", prompt: "下列加点字与“取之，信然”的“信”意思相同的是", options: ["信用", "相信", "确实", "书信"], answer: "确实", explain: "“信然”的“信”意为确实、真的。" },
+          { id: 86, grade: "4", type: "choice", category: "字义", prompt: "“诸儿竞走取之”中“走”的意思是", options: ["走路", "跑", "离开", "移动"], answer: "跑", explain: "古文中“走”通常指“跑”，这里指孩子们争着跑过去摘李子。" },
+          { id: 87, grade: "4", type: "choice", category: "字义", prompt: "下列加点字与“唯戎不动”的“唯”意思相同的是", options: ["唯一", "唯有", "唯物", "唯独"], answer: "唯有", explain: "“唯”在这里意为“只有”。“唯有”即只有。" },
+          { id: 88, grade: "4", type: "choice", category: "字义", prompt: "“溺而不返”中“溺”的意思是", options: ["溺水", "沉迷", "淹没", "弱小"], answer: "淹没", explain: "“溺”指淹没，溺而不返即溺水身亡，不再回来。" },
+          { id: 89, grade: "4", type: "choice", category: "字义", prompt: "下列加点字与“故为精卫”的“故”意思相同的是", options: ["故乡", "故意", "因此", "事故"], answer: "因此", explain: "“故”在这里是“因此、所以”的意思。" },
+          { id: 90, grade: "4", type: "choice", category: "字义", prompt: "“以堙于东海”中“堙”的意思是", options: ["堵塞", "埋没", "填塞", "淹没"], answer: "填塞", explain: "“堙”指填塞，精卫用木石填塞东海。" },
+          { id: 91, grade: "4", type: "choice", category: "字义", prompt: "下列加点字与“炎帝之少女”的“少女”意思相同的是", options: ["年轻的女孩", "小女儿", "少年女子", "小女孩"], answer: "小女儿", explain: "文言文中“少女”指最小的女儿。" },
+          { id: 92, grade: "4", type: "choice", category: "字义", prompt: "“常衔西山之木石”中“衔”的意思是", options: ["用嘴含", "衔接", "接受", "行政单位"], answer: "用嘴含", explain: "“衔”指用嘴叼着。" },
+          { id: 93, grade: "4", type: "choice", category: "字义", prompt: "下列加点字与“人声鼎沸”的“鼎”意思相同的是", options: ["鼎盛", "大名鼎鼎", "三足鼎立", "一言九鼎"], answer: "三足鼎立", explain: "“鼎”原指古代三足两耳的烹煮器，“三足鼎立”的“鼎”也指此物。" },
+          { id: 94, grade: "4", type: "choice", category: "字义", prompt: "“精疲力竭”中“竭”的意思是", options: ["完、尽", "干涸", "用尽", "极端"], answer: "完、尽", explain: "“竭”指完、尽，力气用尽。" },
+          { id: 95, grade: "4", type: "choice", category: "字义", prompt: "下列加点字与“奔流不息”的“息”意思相同的是", options: ["休息", "停止", "气息", "利息"], answer: "停止", explain: "“不息”的“息”意为停止，奔流不息即奔腾不停止。" }
+        );
+        // 第六组：成语·词语运用（76-90）
+        questions.push(
+          { id: 96, grade: "4", type: "choice", category: "成语运用", prompt: "下列成语中，书写有误的一项是", options: ["精忠报国", "大义凛然", "英勇无畏", "再接再励"], answer: "再接再励", explain: "D项应为“再接再厉”。“厉”同“砺”，指磨砺，不能写成“励”。" },
+          { id: 97, grade: "4", type: "choice", category: "成语运用", prompt: "下列成语中，加点字与“震耳欲聋”的“欲”意思相同的是", options: ["随心所欲", "欲言又止", "摇摇欲坠", "求知欲"], answer: "摇摇欲坠", explain: "“震耳欲聋”的“欲”意为将要。“摇摇欲坠”的“欲”也是将要。" },
+          { id: 98, grade: "4", type: "choice", category: "成语运用", prompt: "下列词语中，感情色彩与其他三项不同的是", options: ["志存高远", "精忠报国", "大义灭亲", "铁面无私"], answer: "铁面无私", explain: "A、B、C项侧重于个人志向品德，D项侧重于公正严明，常用于执法者，感情色彩略有不同。" },
+          { id: 99, grade: "4", type: "choice", category: "成语运用", prompt: "“鹤发童颜”形容的是", options: ["年轻人", "老年人", "儿童", "中年人"], answer: "老年人", explain: "“鹤发童颜”指白头发红面色，形容老年人气色好。" },
+          { id: 100, grade: "4", type: "choice", category: "成语运用", prompt: "下列成语中，书写有误的一项是", options: ["眉清目秀", "亭亭玉立", "明眸浩齿", "文质彬彬"], answer: "明眸浩齿", explain: "C项应为“明眸皓齿”。“皓”指洁白，“浩”指广大。" },
+          { id: 101, grade: "4", type: "choice", category: "成语运用", prompt: "“短小精悍”原本形容", options: ["人身材矮小但精明强干", "文章简短有力", "武器短小锋利", "以上都是"], answer: "以上都是", explain: "“短小精悍”原形容人，后也形容文章或发言简短有力，也可形容武器。" },
+          { id: 102, grade: "4", type: "choice", category: "成语运用", prompt: "下列成语中，加点字与“秉公执法”的“秉”意思相同的是", options: ["秉承", "秉烛夜游", "秉性", "秉笔直书"], answer: "秉承", explain: "“秉公”的“秉”意为拿着、掌握。“秉承”的“秉”也是持、掌握的意思。" },
+          { id: 103, grade: "4", type: "choice", category: "成语运用", prompt: "“刚正不阿”形容人", options: ["刚强正直，不阿谀奉承", "刚强固执", "刚强有力", "刚强不屈"], answer: "刚强正直，不阿谀奉承", explain: "“阿”意为迎合、偏袒。“刚正不阿”即刚强正直，不迎合奉承。" },
+          { id: 104, grade: "4", type: "choice", category: "成语运用", prompt: "下列词语中，与“视死如归”意思相近的是", options: ["贪生怕死", "舍生取义", "畏首畏尾", "苟且偷生"], answer: "舍生取义", explain: "“视死如归”形容不怕牺牲。“舍生取义”指为正义而牺牲，意思相近。" },
+          { id: 105, grade: "4", type: "choice", category: "成语运用", prompt: "“慈眉善目”形容人的", options: ["容貌善良", "心地善良", "声音温和", "态度亲切"], answer: "容貌善良", explain: "“慈眉善目”直接形容人的相貌看起来仁慈善良。" },
+          { id: 106, grade: "4", type: "choice", category: "成语运用", prompt: "下列成语中，书写有误的一项是", options: ["英勇无畏", "视死如归", "坚贞不屈", "奋不顾生"], answer: "奋不顾生", explain: "D项应为“奋不顾身”。“身”指自身、生命，不能写成“生”。" },
+          { id: 107, grade: "4", type: "choice", category: "成语运用", prompt: "“相貌堂堂”形容人", options: ["仪表端庄，威严大方", "身材高大", "衣着华丽", "举止优雅"], answer: "仪表端庄，威严大方", explain: "“相貌堂堂”形容人的仪表端庄，身材魁梧，有威严。" },
+          { id: 108, grade: "4", type: "choice", category: "成语运用", prompt: "下列词语中，与“志存高远”意思相反的是", options: ["胸无大志", "好高骛远", "眼高手低", "鼠目寸光"], answer: "胸无大志", explain: "“志存高远”指有远大的志向，反义词是“胸无大志”（没有志向）。" },
+          { id: 109, grade: "4", type: "choice", category: "成语运用", prompt: "“威风凛凛”形容人", options: ["威严庄重，令人敬畏", "气势汹汹", "神气十足", "傲慢自大"], answer: "威严庄重，令人敬畏", explain: "“威风凛凛”是褒义词，形容威严庄重，使人敬畏。" },
+          { id: 110, grade: "4", type: "choice", category: "成语运用", prompt: "下列成语中，加点字与“斩钉截铁”的“截”意思相同的是", options: ["截然不同", "截断", "截止", "截长补短"], answer: "截然不同", explain: "“斩钉截铁”的“截”意为割断。“截然不同”的“截”也是割断，引申为分明、显然。" }
+        );
+        // 第七组：综合·进阶陷阱（91-99）
+        questions.push(
+          { id: 111, grade: "4", type: "choice", category: "字音", prompt: "下列加点字读音完全正确的一项是", options: ["家雀（què）儿", "弯曲（qǔ）", "投降（jiànɡ）", "归还（huán）"], answer: "归还（huán）", explain: "D项正确。A项“家雀儿”的“雀”读 qiǎo；B项“弯曲”的“曲”读 qū；C项“投降”的“降”读 xiáng。" },
+          { id: 112, grade: "4", type: "choice", category: "形近字", prompt: "下列词语书写完全正确的一项是", options: ["博斗", "辫子", "严历", "枯委"], answer: "辫子", explain: "B项正确。A项应为“搏斗”；C项应为“严厉”；D项应为“枯萎”。" },
+          { id: 113, grade: "4", type: "choice", category: "字义", prompt: "下列加点字与“随遇而安”的“安”意思相同的是", options: ["安全", "安排", "安心", "安装"], answer: "安心", explain: "“随遇而安”的“安”指安定、满足。“安心”的“安”也是安定。" },
+          { id: 114, grade: "4", type: "choice", category: "字音", prompt: "下列加点字读音有错误的一项是", options: ["骨髓（suǐ）", "笨拙（zhuō）", "惩罚（chěnɡ）", "气氛（fēn）"], answer: "惩罚（chěnɡ）", explain: "C项错误。“惩罚”的“惩”读 chéng（二声），不是 chěng。" },
+          { id: 115, grade: "4", type: "choice", category: "成语运用", prompt: "下列词语中，与“精疲力竭”意思相近的是", options: ["筋疲力尽", "精力充沛", "精神抖擞", "神采奕奕"], answer: "筋疲力尽", explain: "“精疲力竭”与“筋疲力尽”都形容极度疲劳。" },
+          { id: 116, grade: "4", type: "choice", category: "字义", prompt: "下列加点字与“题西林壁”的“题”意思相同的是", options: ["题目", "题字", "题材", "习题"], answer: "题字", explain: "“题”意为书写、题写。与第61题考点相同，综合复现。" },
+          { id: 117, grade: "4", type: "choice", category: "形近字", prompt: "下列词语书写有误的一项是", options: ["胸怀", "报负", "疑惑", "训斥"], answer: "报负", explain: "B项应为“抱负”。与第41题考点相同，高频易错点。" },
+          { id: 118, grade: "4", type: "choice", category: "字音", prompt: "下列加点字读音完全正确的一项是", options: ["潜入（qiǎn）", "倾斜（qīnɡ）", "浑浊（zuó）", "饶恕（shù）"], answer: "饶恕（shù）", explain: "D项正确。A项“潜入”读 qián；B项“倾斜”读 qīng；C项“浑浊”读 zhuó。" },
+          { id: 119, grade: "4", type: "choice", category: "字义", prompt: "下列加点字与“左顾右盼”的“顾”意思相同的是", options: ["照顾", "顾客", "顾及", "环顾"], answer: "环顾", explain: "“左顾右盼”的“顾”意为看。“环顾”的“顾”也是看。" }
+        );
+      	// ========== 五年级上下册语文字词基础专项复习（约86道） ==========
+        // 第一组：多音字·语境定音
+        questions.push(
+          { id: 120, grade: "5", type: "choice", category: "多音字", prompt: "下列句子中，加点字的读音与“强逼”的“强”读音相同的一项是", options: ["他的性格很强，遇到困难从不退缩。", "他强词夺理，把大家都气坏了。", "虽然他很强大，但也要尊重对手。", "他的强项是数学。"], answer: "他强词夺理，把大家都气坏了。", explain: "“强逼”的“强”读qiǎng。B项“强词夺理”也读qiǎng。A项读qiàng，C、D项读qiáng。" },
+          { id: 121, grade: "5", type: "choice", category: "多音字", prompt: "下列词语中，“削”字的读音与其他三项不同的一项是", options: ["剥削", "削减", "削苹果", "削弱"], answer: "削苹果", explain: "“削苹果”读xiāo（口语），其余读xuē（书面语）。" },
+          { id: 122, grade: "5", type: "choice", category: "多音字", prompt: "下列句子中，加点字的读音与“龟裂”的“龟”读音相同的一项是", options: ["这只乌龟慢悠悠地爬着。", "这块土地因为干旱而龟裂了。", "古代有龟甲占卜的习俗。", "他把龟甲收藏起来。"], answer: "这块土地因为干旱而龟裂了。", explain: "“龟裂”的“龟”读jūn。其余读guī。" },
+          { id: 123, grade: "5", type: "choice", category: "多音字", prompt: "下列词语中，“更”的读音与其他三项不同的一项是", options: ["更好", "更加", "三更半夜", "更进一步"], answer: "三更半夜", explain: "“三更半夜”的“更”读gēng，其余读gèng。" },
+          { id: 124, grade: "5", type: "choice", category: "多音字", prompt: "下列词语中，“冠”的读音与其他三项不同的一项是", options: ["冠军", "怒发冲冠", "冠名权", "夺冠"], answer: "怒发冲冠", explain: "“怒发冲冠”的“冠”读guān（帽子），其余读guàn。" },
+          { id: 125, grade: "5", type: "choice", category: "多音字", prompt: "下列句子中，加点字的读音与“卷尺”的“卷”读音相同的一项是", options: ["这幅卷轴画非常珍贵。", "他把试卷卷起来收好。", "这本书的卷首语写得很精彩。", "请同学们认真答卷。"], answer: "他把试卷卷起来收好。", explain: "“卷尺”的“卷”读juǎn。B项也是juǎn（动词），其余读juàn。" },
+          { id: 126, grade: "5", type: "choice", category: "多音字", prompt: "下列句子中，加点字的读音与“悄然”的“悄”读音相同的一项是", options: ["他悄悄地走进了教室。", "她悄声细语地说着悄悄话。", "悄然无声的夜晚，月亮高悬。", "他悄悄摸摸地溜了出去。"], answer: "悄然无声的夜晚，月亮高悬。", explain: "“悄然”的“悄”读qiǎo。C项也是qiǎo，其余读qiāo。" },
+          { id: 127, grade: "5", type: "choice", category: "多音字", prompt: "下列词语中，“累”的读音与其他三项不同的一项是", options: ["劳累", "积累", "连累", "硕果累累"], answer: "硕果累累", explain: "“硕果累累”的“累”读léi，其余分别读lèi或lěi。" },
+          { id: 128, grade: "5", type: "choice", category: "多音字", prompt: "下列词语中，“差”的读音与其他三项不同的一项是", options: ["差别", "差劲", "参差不齐", "差距"], answer: "参差不齐", explain: "“参差不齐”的“差”读cī，其余读chā。" },
+          { id: 129, grade: "5", type: "choice", category: "多音字", prompt: "下列词语中，“传”的读音与其他三项不同的一项是", options: ["传统", "传记", "传扬", "传说"], answer: "传记", explain: "“传记”的“传”读zhuàn，其余读chuán。" },
+          { id: 130, grade: "5", type: "choice", category: "多音字", prompt: "下列句子中，加点字的读音与“划船”的“划”读音相同的一项是", options: ["我划算了一下，这趟旅行要花不少钱。", "我们划清界限，不再来往。", "他划了一只小船过河。", "这件事由你来划定范围。"], answer: "他划了一只小船过河。", explain: "“划船”的“划”读huá。C项也是huá。" },
+          { id: 131, grade: "5", type: "choice", category: "多音字", prompt: "下列词语中，“间”的读音与其他三项不同的一项是", options: ["时间", "间隔", "空间", "人间"], answer: "间隔", explain: "“间隔”的“间”读jiàn，其余读jiān。" },
+          { id: 132, grade: "5", type: "choice", category: "多音字", prompt: "下列词语中，“任”的读音与其他三项不同的一项是", options: ["任务", "任丘", "任意", "任凭"], answer: "任丘", explain: "“任丘”是地名，读rén，其余读rèn。" },
+          { id: 133, grade: "5", type: "choice", category: "多音字", prompt: "下列词语中，“便”的读音与其他三项不同的一项是", options: ["方便", "便宜", "便利", "便饭"], answer: "便宜", explain: "“便宜”表示价格低时读pián，其余读biàn。" },
+          { id: 134, grade: "5", type: "choice", category: "多音字", prompt: "下列句子中，加点字的读音与“创伤”的“创”读音相同的一项是", options: ["我们要勇于创新。", "这道题创造性地解决了。", "他身上有一道创口。", "创办公司需要资金。"], answer: "他身上有一道创口。", explain: "“创伤”的“创”读chuāng。C项“创口”也读chuāng，其余读chuàng。" }
+        );
+        // 第二组：易错读音
+        questions.push(
+          { id: 135, grade: "5", type: "choice", category: "字音", prompt: "下列加点字的注音完全正确的一项是", options: ["鸡冠花（guān） 酵母（xiào） 驯良（xùn）", "警惕（jǐng） 勉强（qiáng） 榨油（zhà）", "眼睑（jiǎn） 蔺相如（lìn） 渑池（shéng）", "浣纱（huàn） 玷污（diàn） 踌躇（chóu）"], answer: "浣纱（huàn） 玷污（diàn） 踌躇（chóu）", explain: "A项“酵母”读jiào；B项“勉强”读qiǎng；C项“渑池”读miǎn；D项全部正确。" },
+          { id: 136, grade: "5", type: "choice", category: "字音", prompt: "下列词语中，加点字读音全部正确的一组是", options: ["眼眶（kuāng） 睑（liǎn） 咂嘴（zā）", "眼睑（jiǎn） 抖擞（dǒu） 嗜好（shì）", "眸子（móu） 匣子（jiá） 依偎（wēi）", "蹭饭（zèng） 馕饼（náng） 浒墅关（xǔ）"], answer: "眼睑（jiǎn） 抖擞（dǒu） 嗜好（shì）", explain: "A项“眼眶”读kuàng，“睑”读jiǎn；C项“匣子”读xiá；D项“蹭饭”读cèng；B项全部正确。" },
+          { id: 137, grade: "5", type: "choice", category: "字音", prompt: "下列词语中，加点字读音全部正确的一项是", options: ["鸵鸟（tuó） 沦陷（lún） 野兽（shòu）", "冠冕（miǎn） 珊瑚（shān） 礁石（qiáo）", "驯服（xùn） 狭窄（xiá） 褐色（hè）", "萎缩（suō） 繁殖（zhí） 杀菌（jùn）"], answer: "驯服（xùn） 狭窄（xiá） 褐色（hè）", explain: "A项“野兽”读shòu无误；B项“礁石”读jiāo；D项“杀菌”读jūn；C项全部正确。" },
+          { id: 138, grade: "5", type: "choice", category: "字音", prompt: "下列词语中，读音错误的一项是", options: ["眼睑（jiǎn）", "木匣（xiá）", "犟嘴（jiàng）", "倔强（qiáng）"], answer: "倔强（qiáng）", explain: "“倔强”的“强”读jiàng，不是qiáng。" },
+          { id: 139, grade: "5", type: "choice", category: "字音", prompt: "下列词语中，读音全部正确的一组是", options: ["眼睑（liǎn） 眸子（móu） 依偎（wèi）", "嗜好（shì） 抖擞（shǒu） 匣子（xiá）", "羡慕（xiàn） 吩咐（fēn） 咂嘴（zā）", "咂嘴（zá） 馕饼（náng） 浒墅关（xǔ）"], answer: "羡慕（xiàn） 吩咐（fēn） 咂嘴（zā）", explain: "A项“眼睑”读jiǎn，“依偎”读wēi；B项“抖擞”读dǒu；D项“咂嘴”读zā；C项全部正确。" },
+          { id: 140, grade: "5", type: "choice", category: "字音", prompt: "下列加点字，读音完全相同的一组是", options: ["行列 阵列 排列 列举", "恶心 厌恶 恶劣 恶霸", "奴役 役使 劳役 兵役", "处理 处分 相处 处所"], answer: "奴役 役使 劳役 兵役", explain: "“役”统读yì。A项“列举”读liè（第三声），其余读liè（第四声？注意：列读liè四声，举是三声）；B项“恶心”读ě；D项“处所”读chù。" },
+          { id: 141, grade: "5", type: "choice", category: "字音", prompt: "下列加点字，读音错误的一组是", options: ["怯懦（qiè） 间隔（jiàn） 削弱（xuē）", "脊背（jǐ） 惩罚（chéng） 召集（zhào）", "咆哮（xiào） 祀堂（sì） 酵母（xiào）", "驰骋（chí） 拟定（nǐ） 呐喊（nà）"], answer: "咆哮（xiào） 祀堂（sì） 酵母（xiào）", explain: "“酵母”应读jiào，不是xiào。" },
+          { id: 142, grade: "5", type: "choice", category: "字音", prompt: "下列加点字，与“眼睑”中“睑”声母相同的一项是", options: ["检察", "脸谱", "敛财", "连接"], answer: "检察", explain: "“睑”读jiǎn，声母j。“检察”的“检”也读jiǎn，声母j。" }
+        );
+        // 第三组：形近字·同音字辨析
+        questions.push(
+          { id: 143, grade: "5", type: "choice", category: "形近字", prompt: "依次填入下列横线的字，顺序正确的一项是：黄昏__，我__着壮丽的日落，心想：如果能在这里建一座__碑该多好。", options: ["暮幕墓幕", "暮慕墓幕", "暮慕幕墓", "慕暮幕墓"], answer: "暮慕墓幕", explain: "黄昏暮色、羡慕、墓碑、屏幕。" },
+          { id: 144, grade: "5", type: "choice", category: "形近字", prompt: "下列词语中，没有错别字的一组是", options: ["口罗嗦 俯首贴耳 挺而走险 金壁辉煌", "踌躇满志 相形见拙 直接了当 出类拔粹", "老骥伏枥 墨守成规 饮鸩止渴 川流不息", "一愁莫展 融汇贯通 迫不急待 一股作气"], answer: "老骥伏枥 墨守成规 饮鸩止渴 川流不息", explain: "A项“金碧辉煌”；B项“相形见绌”“直截了当”“出类拔萃”；D项“一筹莫展”“融会贯通”“迫不及待”“一鼓作气”。" },
+          { id: 145, grade: "5", type: "choice", category: "形近字", prompt: "下列各组词语中，字形完全正确的一组是", options: ["爱慕 羡慕 朝三暮四 夜幕降临", "幕色 坟暮 爱幕 朝墓", "爱募 日暮 坟墓 银暮", "羡幕 暮春 开募 慕名而来"], answer: "爱慕 羡慕 朝三暮四 夜幕降临", explain: "B项“幕色”应为“暮色”等；C项“银暮”应为“银幕”；D项“羡幕”应为“羡慕”。" },
+          { id: 146, grade: "5", type: "choice", category: "形近字", prompt: "依次填入下列横线的字，正确的一项是：我们不应该嫌__他，更不应该抱__他的态度，而是要__虚地向他学习。", options: ["弃歉谦", "弃谦歉", "弃歉谦", "气歉谦"], answer: "弃歉谦", explain: "嫌弃、抱歉、谦虚。" },
+          { id: 147, grade: "5", type: "choice", category: "形近字", prompt: "下列词语中，字形错误的一项是", options: ["通讯 汛期 迅速", "悔恨 教诲 晦气", "干燥 烦躁 噪音", "爱幕 暮色 羡墓"], answer: "爱幕 暮色 羡墓", explain: "“爱幕”应为“爱慕”，“羡墓”应为“羡慕”或“坟墓”。" },
+          { id: 148, grade: "5", type: "choice", category: "形近字", prompt: "下列同音字组词中，不正确的一组是", options: ["shì——发誓 嗜好 失败 侍奉", "yù——富裕 忧郁 比喻 监狱", "qiè——偷窃 胆怯 惬意", "jù——距离 恐惧 具体 依据"], answer: "shì——发誓 嗜好 失败 侍奉", explain: "“失败”的“失”读shī，与shì不同音。" },
+          { id: 149, grade: "5", type: "choice", category: "形近字", prompt: "下列词语书写完全正确的一组是", options: ["振撼 暴燥 相题并论 原形必露", "精萃 通谍 川流不息 一愁莫展", "萎靡 诀窍 迫不急待 一股作气", "宣泄 赝品 脍炙人口 迫不及待"], answer: "宣泄 赝品 脍炙人口 迫不及待", explain: "A项“震撼”“暴躁”“相提并论”“原形毕露”；B项“精粹”“通牒”“一筹莫展”；C项“迫不及待”“一鼓作气”。" },
+          { id: 150, grade: "5", type: "choice", category: "形近字", prompt: "下列词语中，没有错别字的一组是", options: ["留连忘返 真知卓见 直接了当 英雄倍出", "挺而走险 换然一新 动则得咎 并行不背", "既往不咎 委曲求全 锋芒毕露 鳞次栉比", "不记其数 走头无路 滥芋充数 病入膏肓"], answer: "既往不咎 委曲求全 锋芒毕露 鳞次栉比", explain: "A项“流连忘返”“真知灼见”“直截了当”“英雄辈出”；B项“铤而走险”“焕然一新”“动辄得咎”“并行不悖”；D项“不计其数”“走投无路”“滥竽充数”。" },
+          { id: 151, grade: "5", type: "choice", category: "形近字", prompt: "下列形近字组词中，不正确的一项是", options: ["嫌弃 谦虚 道歉", "爱慕 屏幕 暮色", "悔改 教诲 黑暗", "汛期 通讯 迅速"], answer: "悔改 教诲 黑暗", explain: "“黑暗”的“暗”与其他非同音，正确应为“晦暗”相关。" },
+          { id: 152, grade: "5", type: "choice", category: "形近字", prompt: "依次填入下列横线的字，正确的一项是：他为自己浪费时光的行为感到后__，老师教__他要珍惜时间，再也不让时间在__暗中溜走。", options: ["悔诲晦", "诲悔晦", "悔晦诲", "晦诲悔"], answer: "悔诲晦", explain: "后悔、教诲、晦暗。" },
+          { id: 153, grade: "5", type: "choice", category: "形近字", prompt: "下列词语中，没有错别字的一组是", options: ["精典 优柔寡断 融汇贯通 立案侦察", "家俱 仗义执言 班门弄斧 按步就班", "嘻戏 锋芒必露 谈笑风声 好高鹜远", "辐射 班门弄斧 川流不息 真知灼见"], answer: "辐射 班门弄斧 川流不息 真知灼见", explain: "A项“经典”“融会贯通”“立案侦查”；B项“家具”“按部就班”；C项“嬉戏”“锋芒毕露”“谈笑风生”“好高骛远”。" },
+          { id: 154, grade: "5", type: "choice", category: "形近字", prompt: "下列词语中，与“干燥”的“燥”字形相同的一组是", options: ["暴躁 噪杂", "干燥 燥热", "噪音 急躁", "暴躁 洗澡"], answer: "干燥 燥热", explain: "“燥”为火字旁，与干热有关。A项“暴躁”是足字旁；C项“噪音”是口字旁；D项“洗澡”是三点水旁。" },
+          { id: 155, grade: "5", type: "choice", category: "多音字", prompt: "下列加点字读音与“削苹果”的“削”相同的一组是", options: ["剥削 削弱", "削铅笔 削面", "削减 削职", "削价 削足适履"], answer: "削铅笔 削面", explain: "“削苹果”读xiāo，口语用；B项也是xiāo，其余读xuē。" },
+          { id: 156, grade: "5", type: "choice", category: "字义", prompt: "下列词语中，加点字的意思相同的一组是", options: ["哀鸿遍野（鸿：鸿雁/书信）", "哀鸿遍野（鸿：大雁）——鸿雁传书（鸿：大雁）", "鸿篇巨制（鸿：大）——哀鸿遍野（鸿：大雁）", "鸿鹄之志（鸿：大雁）——鸿毛（鸿：大雁）"], answer: "哀鸿遍野（鸿：大雁）——鸿雁传书（鸿：大雁）", explain: "两组“鸿”均指大雁。" },
+          { id: 157, grade: "5", type: "choice", category: "形近字", prompt: "依次填入下列横线的字，正确的一项是：在洪__来临之际，通__部门及时发布了警__，速度非常迅__。", options: ["汛讯训迅", "讯汛训迅", "汛讯讯迅", "讯汛迅讯"], answer: "汛讯训迅", explain: "洪水汛期、通讯、训练、迅速。" },
+          { id: 158, grade: "5", type: "choice", category: "形近字", prompt: "下列各组词语中，字形完全正确的一组是", options: ["原形毕露 直接了当 脍炙人口", "呕心沥血 按步就班 穿流不息", "阴谋鬼计 仗义直言 迫不急待", "一如既往 川流不息 迫不及待"], answer: "一如既往 川流不息 迫不及待", explain: "A项“直截了当”；B项“按部就班”“川流不息”；C项“阴谋诡计”“仗义执言”“迫不及待”。" },
+          { id: 159, grade: "5", type: "choice", category: "字义", prompt: "下列词语中，与“哀鸿遍野”的“鸿”意思不同的一项是", options: ["鸿雁", "鸿鹄", "鸿毛", "鸿图"], answer: "鸿图", explain: "“鸿图”的“鸿”意为“大”，不是大雁。" },
+          { id: 160, grade: "5", type: "choice", category: "形近字", prompt: "下列词语中，字形完全正确的一项是", options: ["呕心沥血 千篇一律 应接不暇 民不聊生", "生灵涂炭 国泰民安 流离失所 同心协力", "理所当然 无穷无尽 亭台楼阁 诗情画意", "一知半解 津津有味 索然无味 自作多情"], answer: "呕心沥血 千篇一律 应接不暇 民不聊生", explain: "A组四个成语全部正确。" },
+          { id: 161, grade: "5", type: "choice", category: "字义", prompt: "下列加点字，与“胆怯”的“怯”意思不同的一项是", options: ["怯懦", "怯场", "怯弱", "祛除"], answer: "祛除", explain: "“祛除”的“祛”意为除去，不是胆小。" },
+          { id: 162, grade: "5", type: "choice", category: "成语运用", prompt: "下列词语中，与“哀鸿遍野”感情色彩不相同的一项是", options: ["生灵涂炭", "民不聊生", "安居乐业", "流离失所"], answer: "安居乐业", explain: "“安居乐业”为褒义，其余为贬义。" }
+        );
+        // 第四组：笔顺·笔画·部首
+        questions.push(
+          { id: 163, grade: "5", type: "choice", category: "笔顺", prompt: "下列关于“乃”字的说法，正确的一项是", options: ["“乃”的第一笔是撇，第二笔是横折折折钩。", "“乃”的笔顺是：撇、横折折钩、撇。", "“乃”共3画，第一笔是横折折钩。", "“乃”的部首是“丿”，第二笔是横折折折钩。"], answer: "“乃”的笔顺是：撇、横折折钩、撇。", explain: "“乃”共3画，笔顺为撇、横折折钩、撇。" },
+          { id: 164, grade: "5", type: "choice", category: "笔顺", prompt: "下列关于“脊”字的说法，正确的一项是", options: ["“脊”的笔顺是：先写“人”，再写点、提、撇、捺，最后写“月”。", "“脊”共10画，部首是“月”。", "“脊”的笔顺是：点、提、撇、点、撇、捺、竖、横折钩、横、横。", "“脊”的第七笔是竖，第八笔是横折钩。"], answer: "“脊”的笔顺是：点、提、撇、点、撇、捺、竖、横折钩、横、横。", explain: "标准笔顺为点、提、撇、点、撇、捺、竖、横折钩、横、横。" },
+          { id: 165, grade: "5", type: "choice", category: "笔顺", prompt: "下列关于“夷”字的说法，正确的一项是", options: ["“夷”共5画，第一笔是横。", "“夷”的笔顺是：横、竖折折钩、撇、横、撇、竖、横折、横、撇、竖弯钩。", "“夷”的部首是“大”，第五画是竖弯钩。", "“夷”的笔顺是：横、竖折折钩、横折、横、竖折折钩、竖、竖弯钩。"], answer: "“夷”的部首是“大”，第五画是竖弯钩。", explain: "“夷”共6画：横、竖折折钩、撇、横、撇、竖弯钩。部首为“大”。" },
+          { id: 166, grade: "5", type: "choice", category: "笔顺", prompt: "下列关于“承”字的说法，正确的一项是", options: ["“承”共8画，第一笔是横折折钩。", "“承”的笔顺是：横折折钩、横撇、横、横、竖钩、撇、捺。", "“承”共9画，第一笔是横钩。", "“承”的笔顺是：横撇、竖钩、横、横、横、横折折钩、撇、捺。"], answer: "“承”的笔顺是：横折折钩、横撇、横、横、竖钩、撇、捺。", explain: "“承”共8画，笔顺如B项所述。" },
+          { id: 167, grade: "5", type: "choice", category: "笔顺", prompt: "下列关于“兜”字的说法，正确的一项是", options: ["“兜”共10画，第一笔是撇。", "“兜”的笔顺是：竖、横折、横、撇、竖提、横折、横、撇、竖弯钩。", "“兜”共11画，部首是“儿”。", "“兜”的笔顺是：撇、竖、横折、横、撇、竖提、横折、横、撇、竖弯钩。"], answer: "“兜”的笔顺是：撇、竖、横折、横、撇、竖提、横折、横、撇、竖弯钩。", explain: "“兜”共11画，笔顺如D项。" },
+          { id: 168, grade: "5", type: "choice", category: "笔顺", prompt: "下列词语中，笔顺正确的是", options: ["“区”字最后一笔是竖折。", "“凶”字最后一笔是竖折。", "“画”字最后一笔是竖折。", "“母”字最后一笔是点。"], answer: "“凶”字最后一笔是竖折。", explain: "“凶”笔顺：撇、点、竖折、竖。" },
+          { id: 169, grade: "5", type: "choice", category: "笔顺", prompt: "下列汉字的笔画数，判断正确的是", options: ["“臣”共6画。", "“巨”共4画。", "“鼎”共11画。", "“考”共5画。"], answer: "“臣”共6画。", explain: "“臣”6画，“鼎”12画，“考”6画。" },
+          { id: 170, grade: "5", type: "choice", category: "笔顺", prompt: "下列关于“亥”字的说法，不正确的一项是", options: ["“亥”共6画。", "“亥”的第六画是撇。", "“亥”的笔顺是：点、横、撇折、撇、撇、捺。", "“亥”的部首是“亠”。"], answer: "“亥”的第六画是撇。", explain: "“亥”第六画是捺，不是撇。" },
+          { id: 171, grade: "5", type: "choice", category: "部首", prompt: "下列关于“舟”字的说法，正确的一项是", options: ["“舟”共5画，最后一笔是横。", "“舟”的笔顺是：撇、横折钩、点、横、点。", "“舟”的部首是“舟”，第五画是点。", "“舟”共6画，第四画是横。"], answer: "“舟”的部首是“舟”，第五画是点。", explain: "“舟”共6画，第五画是点。" },
+          { id: 172, grade: "5", type: "choice", category: "笔顺", prompt: "下列关于“臾”字的说法，正确的一项是", options: ["“臾”共7画，第一笔是横折折折钩。", "“臾”的笔顺是：撇、横、横、撇、竖、横折、横、撇、捺。", "“臾”共8画，部首是“臼”。", "“臾”的笔顺是：横、竖、横折、横、横、撇、竖、横折、横、撇、捺。"], answer: "“臾”共8画，部首是“臼”。", explain: "“臾”共8画，部首“臼”。" },
+          { id: 173, grade: "5", type: "choice", category: "部首", prompt: "下列汉字的部首查字法，不正确的一项是", options: ["“乃”查“丿”部。", "“承”查“了”部。", "“臣”查“臣”部。", "“夷”查“大”部。"], answer: "“承”查“了”部。", explain: "“承”的部首是“手”或“乛”，不是“了”。" }
+        );
+        // 第五组：一字多义·古诗文字义
+        questions.push(
+          { id: 174, grade: "5", type: "choice", category: "字义", prompt: "“题临安邸”中的“题”字，意思正确的一项是", options: ["题目", "题写", "体裁", "评定"], answer: "题写", explain: "“题”意为题写、书写。" },
+          { id: 175, grade: "5", type: "choice", category: "字义", prompt: "“示儿”中的“示”字，意思正确的一项是", options: ["表示", "给……看", "示范", "指示"], answer: "给……看", explain: "“示”意为给……看。" },
+          { id: 176, grade: "5", type: "choice", category: "字义", prompt: "“万马齐喑究可哀”中的“喑”字，意思正确的一项是", options: ["黑暗", "沉默", "声音", "叫喊"], answer: "沉默", explain: "“喑”指嗓子哑，引申为沉默。" },
+          { id: 177, grade: "5", type: "choice", category: "字义", prompt: "“九州生气恃风雷”中的“恃”字，意思正确的一项是", options: ["依靠", "等待", "惧怕", "养育"], answer: "依靠", explain: "“恃”意为依靠。" },
+          { id: 178, grade: "5", type: "choice", category: "字义", prompt: "“王师北定中原日”中的“定”字，意思正确的一项是", options: ["确定", "平定", "一定", "规定"], answer: "平定", explain: "“定”意为平定、收复。" },
+          { id: 179, grade: "5", type: "choice", category: "字义", prompt: "“家祭无忘告乃翁”中的“乃”字，意思正确的一项是", options: ["于是", "你的", "是", "竟然"], answer: "你的", explain: "“乃”意为你的。" },
+          { id: 180, grade: "5", type: "choice", category: "字义", prompt: "“九州生气恃风雷”中的“生气”一词，意思正确的一项是", options: ["气息", "活力/生命力", "发怒", "赌气"], answer: "活力/生命力", explain: "“生气”指朝气蓬勃的局面。" },
+          { id: 181, grade: "5", type: "choice", category: "字义", prompt: "“死去元知万事空”中的“元”字，意思正确的一项是", options: ["开始", "原/本来", "大", "为首的"], answer: "原/本来", explain: "“元”通“原”，意为本来。" },
+          { id: 182, grade: "5", type: "choice", category: "字义", prompt: "“干将发硎”中的“硎”字，意思正确的一项是", options: ["磨刀石", "磨砺", "刀锋", "石"], answer: "磨刀石", explain: "“硎”指磨刀石。" },
+          { id: 183, grade: "5", type: "choice", category: "字义", prompt: "“鹰隼试翼”中的“隼”字，意思正确的一项是", options: ["一种鹰类猛禽", "鸟的翅膀", "鸟的爪子", "鸟的羽毛"], answer: "一种鹰类猛禽", explain: "“隼”是鹰科猛禽。" },
+          { id: 184, grade: "5", type: "choice", category: "字义", prompt: "“奇花初胎”中的“胎”字，意思正确的一项是", options: ["胎儿", "胚胎", "孕育/开端", "轮胎"], answer: "孕育/开端", explain: "“胎”意为孕育、萌发。" },
+          { id: 185, grade: "5", type: "choice", category: "字义", prompt: "“地履其黄”中的“履”字，意思正确的一项是", options: ["鞋子", "踩着/踏着", "履行", "旅程"], answer: "踩着/踏着", explain: "“履”意为踩、踏。" },
+          { id: 186, grade: "5", type: "choice", category: "字义", prompt: "“干将发硎，有作其芒”中的“芒”字，意思正确的一项是", options: ["麦芒", "光芒", "锋芒", "刺"], answer: "光芒", explain: "“芒”指光芒。" },
+          { id: 187, grade: "5", type: "choice", category: "字义", prompt: "“纵有千古，横有八荒”中的“八荒”一词，意思正确的一项是", options: ["八种荒凉景象", "四面八方的荒地", "天下/极远的地方", "八种野菜"], answer: "天下/极远的地方", explain: "“八荒”指天下极远的地方。" },
+          { id: 188, grade: "5", type: "choice", category: "字义", prompt: "“王师北定中原日”中的“师”字，意思正确的一项是", options: ["老师", "军队", "学习", "效法"], answer: "军队", explain: "“师”指军队。" }
+        );
+        // 第六组：成语·词语运用
+        questions.push(
+          { id: 189, grade: "5", type: "choice", category: "成语运用", prompt: "“哀鸿遍野”一词中，“鸿”的意思是", options: ["鸿雁", "书信", "大", "洪水"], answer: "鸿雁", explain: "“鸿”指大雁。" },
+          { id: 190, grade: "5", type: "choice", category: "成语运用", prompt: "下列句子中，加点词语运用恰当的一项是", options: ["李老师呕心沥血，为教育事业奉献了一生。", "白骨精足智多谋，但最终难逃孙悟空法眼。", "他最近总是得意忘形，但还是考了全班第一。", "班长诡计多端，解决了很多班级矛盾。"], answer: "李老师呕心沥血，为教育事业奉献了一生。", explain: "A项褒义正确。B项“足智多谋”用于反面人物不恰当；C项“得意忘形”贬义；D项“诡计多端”贬义。" },
+          { id: 191, grade: "5", type: "choice", category: "成语运用", prompt: "下列成语中，与“流离失所”感情色彩最接近的一项是", options: ["安居乐业", "国泰民安", "民不聊生", "政通人和"], answer: "民不聊生", explain: "“民不聊生”与“流离失所”均为贬义。" },
+          { id: 192, grade: "5", type: "choice", category: "成语运用", prompt: "下列词语中，加点字解释错误的一项是", options: ["哀鸿遍野（悲哀）", "生灵涂炭（人民）", "国泰民安（平安）", "政通人和（通行）"], answer: "政通人和（通行）", explain: "“通”意为顺畅、通达，不是通行。" },
+          { id: 193, grade: "5", type: "choice", category: "成语运用", prompt: "下列句子中，加点词语使用不当的一项是", options: ["改革后农村丰衣足食，百姓生活幸福。", "他在比赛中诡计多端，巧妙地战胜了所有对手。", "我们要同心协力，共渡难关。", "战乱中百姓流离失所，令人痛心。"], answer: "他在比赛中诡计多端，巧妙地战胜了所有对手。", explain: "“诡计多端”为贬义，用于自己不当。" },
+          { id: 194, grade: "5", type: "choice", category: "成语运用", prompt: "下列成语中，感情色彩与其他三项不同的一项是", options: ["足智多谋", "诡计多端", "呕心沥血", "同心协力"], answer: "诡计多端", explain: "“诡计多端”为贬义，其余为褒义。" },
+          { id: 195, grade: "5", type: "choice", category: "成语运用", prompt: "下列词语中，与“哀鸿遍野”意思相反的一项是", options: ["生灵涂炭", "安居乐业", "民不聊生", "流离失所"], answer: "安居乐业", explain: "“安居乐业”是安定幸福，与灾难景象相反。" },
+          { id: 196, grade: "5", type: "choice", category: "成语运用", prompt: "下列句子中，加点成语使用正确的一项是", options: ["为了完成这个项目，他呕心沥血，终于取得了成功。", "小林虽然成绩不好，但他得意忘形，从不气馁。", "遇到困难我们要诡计多端，积极想办法解决。", "这支队伍足智多谋，总是用阴谋诡计对付敌人。"], answer: "为了完成这个项目，他呕心沥血，终于取得了成功。", explain: "A项褒义正确。" },
+          { id: 197, grade: "5", type: "choice", category: "成语运用", prompt: "下列各组词语中，感情色彩完全相同的一组是", options: ["足智多谋/诡计多端", "呕心沥血/处心积虑", "国泰民安/政通人和", "得意忘形/兴高采烈"], answer: "国泰民安/政通人和", explain: "C组均为褒义。" },
+          { id: 198, grade: "5", type: "choice", category: "成语运用", prompt: "下列句子中，加点词语运用正确的一项是", options: ["这些不法分子诡计多端，最终还是被警方一网打尽。", "他的阴谋虽然呕心沥血，但最终没有得逞。", "我们要学习鲁迅先生那种得意忘形的精神。", "王老师诡计多端，总能把班级管理得井井有条。"], answer: "这些不法分子诡计多端，最终还是被警方一网打尽。", explain: "A项贬义用于不法分子恰当。" },
+          { id: 199, grade: "5", type: "choice", category: "成语运用", prompt: "下列词语中，加点字意思不同于其他三项的一项是", options: ["哀鸿遍野", "哀思", "哀求", "哀叹"], answer: "哀求", explain: "“哀求”的“哀”含恳求义，其余为悲伤。" },
+          { id: 200, grade: "5", type: "choice", category: "成语运用", prompt: "下列词语中，与“国泰民安”构词方式相同的一项是", options: ["安居乐业", "丰衣足食", "政通人和", "生灵涂炭"], answer: "政通人和", explain: "都是并列结构：国泰+民安，政通+人和。" },
+          { id: 201, grade: "5", type: "choice", category: "成语运用", prompt: "下列句子中，加点词语使用不正确的一项是", options: ["在战争年代，百姓流离失所，苦不堪言。", "在古诗词中，“哀鸿”常用来比喻流离失所的灾民。", "改革开放以来，我国人民丰衣足食，生活水平不断提高。", "敌人的阴谋呕心沥血，最终被我军识破。"], answer: "敌人的阴谋呕心沥血，最终被我军识破。", explain: "“呕心沥血”是褒义，不用于敌人。" },
+          { id: 202, grade: "5", type: "choice", category: "成语运用", prompt: "下列句子中，加点词语运用正确的一项是", options: ["我们要同心协力，把班级建设得更好。", "他真是个诡计多端的好班长，总能找到解决问题的办法。", "老师的呕心沥血的教导让我终身受益。", "敌人足智多谋，但最终还是被我们打败了。"], answer: "我们要同心协力，把班级建设得更好。", explain: "A项褒义正确。" }
+        );
+        // 第七组：综合·进阶陷阱
+        questions.push(
+          { id: 203, grade: "5", type: "choice", category: "综合", prompt: "下列句子中，加点字读音和字形都正确的一项是", options: ["她的眼睑（jiǎn）低垂，仿佛睡着了。", "他倔强（juèqiáng）地不肯认输。", "这只乌龟（guī）裂的手上满是老茧。", "他一边削（xuē）苹果，一边说话。"], answer: "她的眼睑（jiǎn）低垂，仿佛睡着了。", explain: "A项正确。B项“倔强”读juèjiàng；C项“龟裂”读jūn；D项“削苹果”读xiāo。" },
+          { id: 204, grade: "5", type: "choice", category: "综合", prompt: "下列词语的书写和读音全部正确的一项是", options: ["爱慕（mò） 幕色（mù） 暮碑（mù）", "嫌弃（qì） 道歉（qiàn） 谦虚（qiān）", "讯期（xùn） 通讯（xùn） 迅速（sù）", "悔改（huǐ） 教诲（huì） 晦气（huì）"], answer: "悔改（huǐ） 教诲（huì） 晦气（huì）", explain: "A项“爱慕”读mù，“幕色”应为“暮色”；B项“道歉”正确；C项“讯期”应为“汛期”；D项完全正确。" },
+          { id: 205, grade: "5", type: "choice", category: "综合", prompt: "下列选项中，关于《示儿》的说法错误的一项是", options: ["“家祭无忘告乃翁”中的“乃翁”指“你的父亲”。", "“王师北定中原日”表达了诗人渴望收复失地的愿望。", "“死去元知万事空”中的“元”是“原”的通假字。", "《示儿》是诗人写给儿子表达悲伤之情的诗。"], answer: "《示儿》是诗人写给儿子表达悲伤之情的诗。", explain: "《示儿》更主要表达爱国之情和收复失地的渴望。" },
+          { id: 206, grade: "5", type: "choice", category: "多音字", prompt: "下列词语中，加点字读音相同的一组是", options: ["强求 强大 强迫", "削皮 削减 剥削", "龟缩 龟裂 乌龟", "悄然 静悄悄 悄无声息"], answer: "悄然 静悄悄 悄无声息", explain: "D项均读qiǎo。A项qiǎng/qiáng/qiǎng；B项xiāo/xuē/xuē；C项guī/jūn/guī。" },
+          { id: 207, grade: "5", type: "choice", category: "形近字", prompt: "依次填入下列横线的汉字，正确的一组是：他的__弱和__躬，与大家的__虚形成了鲜明的对比。", options: ["谦谦歉", "歉谦谦", "谦歉谦", "歉歉谦"], answer: "谦谦歉", explain: "谦虚、谦躬、道歉。" },
+          { id: 208, grade: "5", type: "choice", category: "字义", prompt: "下列句子中，加点字解释有误的一项是", options: ["“题临安邸”中的“题”：题目。", "“万马齐喑”中的“喑”：沉默。", "“九州生气恃风雷”中的“恃”：依靠。", "“示儿”中的“示”：给……看。"], answer: "“题临安邸”中的“题”：题目。", explain: "“题”意为题写，动词。" },
+          { id: 209, grade: "5", type: "choice", category: "字音", prompt: "下列词语的书写和读音全部正确的一组是", options: ["眼睑（liǎn） 倔强（juè） 削弱（xuē）", "侵略（lüè） 任丘（qiū） 间隔（jiàn）", "冠军（guàn） 强大（qiáng） 龟裂（jūn）", "奢侈（chǐ） 酵母（xiào） 驯良（liáng）"], answer: "冠军（guàn） 强大（qiáng） 龟裂（jūn）", explain: "C项全部正确。A项“眼睑”读jiǎn；D项“酵母”读jiào。" },
+          { id: 210, grade: "5", type: "choice", category: "字义", prompt: "下列加点词意思相同的一组是", options: ["哀鸿遍野 哀思", "鸿雁 鸿鹄", "乃翁 乃至", "示儿 表示"], answer: "鸿雁 鸿鹄", explain: "B项“鸿”均指大雁。" },
+          { id: 211, grade: "5", type: "choice", category: "成语运用", prompt: "下列句子中，加点词语运用正确的一项是", options: ["花园里哀鸿遍野，鸟儿欢快地唱着歌。", "我们的祖国国泰民安，人民安居乐业。", "小红学习刻苦，成绩很好，但她总是得意忘形。", "敌人足智多谋，所以很快被打败了。"], answer: "我们的祖国国泰民安，人民安居乐业。", explain: "B项正确。A项褒贬矛盾；C项“得意忘形”贬义；D项“足智多谋”褒贬不当。" },
+          { id: 212, grade: "5", type: "choice", category: "笔顺", prompt: "下列关于“乃”字的说法，错误的一项是", options: ["“乃”共2画。", "“乃”的笔顺是：横折折折钩、撇。", "“乃”在“家祭无忘告乃翁”中指“你的”。", "“乃”的第一笔是撇。"], answer: "“乃”的第一笔是撇。", explain: "“乃”第一笔是横折折折钩，D项错误。" }
+        );
+      	
+
+        // ===================== 用户数据 =====================
+        let userRecords = {};
+        let wrongBookSet = new Set();
+        let favoriteSet = new Set();
+
+        let filteredQuestions = [];
+        let currentIndex = -1;
+        let currentQuestion = null;
+
+        // DOM 元素
+        const filterContent = document.getElementById('filterContent');
+        const filterToggle = document.getElementById('filterToggle');
+        const gradeChecks = document.querySelectorAll('#gradeGroup input');
+        const typeChecks = document.querySelectorAll('#typeGroup input');
+        const categoryChecks = document.querySelectorAll('#categoryGroup input');
+        const onlyUndone = document.getElementById('onlyUndone');
+        const onlyWrong = document.getElementById('onlyWrong');
+        const onlyFav = document.getElementById('onlyFav');
+        const selectAllBtn = document.getElementById('selectAllBtn');
+        const clearFilterBtn = document.getElementById('clearFilterBtn');
+        const questionListContainer = document.getElementById('questionListContainer');
+        const questionMeta = document.getElementById('questionMeta');
+        const questionPrompt = document.getElementById('questionPrompt');
+        const optionsArea = document.getElementById('optionsArea');
+        const feedbackArea = document.getElementById('feedbackArea');
+        const submitBtn = document.getElementById('submitBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const favBtn = document.getElementById('favBtn');
+        const wrongBtn = document.getElementById('wrongBtn');
+        const showWrongBtn = document.getElementById('showWrongBtn');
+        const showFavBtn = document.getElementById('showFavBtn');
+        const clearWrongBtn = document.getElementById('clearWrongBtn');
+        const clearFavBtn = document.getElementById('clearFavBtn');
+        const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+        const progressFill = document.getElementById('progressFill');
+        const percentText = document.getElementById('percentText');
+        const statsLabel = document.getElementById('statsLabel');
+
+        function loadUserData() {
+            try {
+                const stored = localStorage.getItem('chinese_user_records');
+                if (stored) userRecords = JSON.parse(stored);
+                const storedWrong = localStorage.getItem('chinese_wrong_set');
+                if (storedWrong) wrongBookSet = new Set(JSON.parse(storedWrong));
+                const storedFav = localStorage.getItem('chinese_fav_set');
+                if (storedFav) favoriteSet = new Set(JSON.parse(storedFav));
+            } catch (e) {
+                console.error('加载本地数据失败', e);
+            }
+        }
+
+        function saveUserData() {
+            localStorage.setItem('chinese_user_records', JSON.stringify(userRecords));
+            localStorage.setItem('chinese_wrong_set', JSON.stringify([...wrongBookSet]));
+            localStorage.setItem('chinese_fav_set', JSON.stringify([...favoriteSet]));
+        }
+
+        function filterQuestions() {
+            let filtered = [...questions];
+            const selectedGrades = Array.from(gradeChecks).filter(cb => cb.checked).map(cb => cb.value);
+            filtered = filtered.filter(q => selectedGrades.includes(q.grade));
+            const selectedTypes = Array.from(typeChecks).filter(cb => cb.checked).map(cb => cb.value);
+            filtered = filtered.filter(q => selectedTypes.includes(q.type));
+            const selectedCats = Array.from(categoryChecks).filter(cb => cb.checked).map(cb => cb.value);
+            filtered = filtered.filter(q => selectedCats.includes(q.category));
+            if (onlyUndone.checked) filtered = filtered.filter(q => !userRecords[q.id]?.answered);
+            if (onlyWrong.checked) filtered = filtered.filter(q => wrongBookSet.has(q.id));
+            if (onlyFav.checked) filtered = filtered.filter(q => favoriteSet.has(q.id));
+            return filtered;
+        }
+
+        function renderQuestionList() {
+            filteredQuestions = filterQuestions();
+            if (!filteredQuestions.length) {
+                questionListContainer.innerHTML = `
+                    <div class="empty-state"><i class="ph ph-magnifying-glass"></i>
+                    <p>没有符合条件的题目，请调整筛选条件</p></div>`;
+                currentIndex = -1;
+                currentQuestion = null;
+                clearQuestionDisplay();
+                return;
+            }
+            let html = '';
+            filteredQuestions.forEach((q, idx) => {
+                const record = userRecords[q.id] || {};
+                let statusIcon = '<i class="ph ph-circle status-icon"></i>';
+                if (record.answered) {
+                    statusIcon = record.isCorrect ?
+                        '<i class="ph-fill ph-check-circle status-icon"></i>' :
+                        '<i class="ph-fill ph-x-circle status-icon"></i>';
+                }
+                const favIcon = favoriteSet.has(q.id) ?
+                    '<span class="fav-indicator"><i class="ph-fill ph-star"></i></span>' : '';
+                const gradeText = q.grade === '1-3' ? '1-3' : q.grade + '年级';
+                const shortPrompt = q.prompt.length > 40 ? q.prompt.slice(0, 37) + '...' : q.prompt;
+                html += `<div class="question-list-item" data-idx="${idx}">
+                            ${statusIcon}
+                            <span class="grade-badge">${gradeText}</span>
+                            <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${shortPrompt}</span>
+                            ${favIcon}
+                         </div>`;
+            });
+            questionListContainer.innerHTML = html;
+            document.querySelectorAll('.question-list-item').forEach(el => {
+                el.addEventListener('click', () => {
+                    const idx = parseInt(el.dataset.idx);
+                    if (!isNaN(idx) && filteredQuestions[idx]) {
+                        currentIndex = idx;
+                        displayQuestion(filteredQuestions[currentIndex]);
+                        highlightSelectedListItem();
+                    }
+                });
+            });
+            if (currentIndex >= filteredQuestions.length) currentIndex = 0;
+            if (filteredQuestions.length && currentIndex === -1) currentIndex = 0;
+            if (filteredQuestions.length && currentIndex >= 0) {
+                displayQuestion(filteredQuestions[currentIndex]);
+                highlightSelectedListItem();
+            } else {
+                clearQuestionDisplay();
+            }
+            updateStats();
+        }
+
+        function highlightSelectedListItem() {
+            document.querySelectorAll('.question-list-item').forEach((el, i) => {
+                el.classList.toggle('selected', i === currentIndex);
+            });
+        }
+
+        function clearQuestionDisplay() {
+            questionMeta.innerHTML = '<i class="ph ph-question"></i>未选择题目';
+            questionPrompt.innerText = '请从上方选择一道题目开始练习';
+            optionsArea.innerHTML = '';
+            feedbackArea.innerHTML = '';
+            submitBtn.disabled = true;
+        }
+
+        function displayQuestion(q) {
+            if (!q) return;
+            currentQuestion = q;
+            const record = userRecords[q.id] || {};
+            const gradeShow = q.grade === '1-3' ? '1~3年级' : q.grade + '年级';
+            const typeShow = q.type === 'choice' ? '选择题' : '判断题';
+            questionMeta.innerHTML = `<i class="ph ph-question"></i>${gradeShow} · ${typeShow} · ${q.category}`;
+            questionPrompt.innerText = q.prompt;
+            let optsHtml = '';
+            if (q.type === 'choice') {
+                q.options.forEach((opt, idx) => {
+                    const letter = String.fromCharCode(65 + idx);
+                    const checkedAttr = (record.answerGiven === opt) ? 'checked' : '';
+                    optsHtml += `<label class="option-item">
+                        <input type="radio" name="questionOption" value="${opt.replace(/"/g, '&quot;')}" ${checkedAttr}>
+                        <span><strong style="color:var(--primary-600);margin-right:6px;">${letter}.</strong>${opt}</span>
+                    </label>`;
+                });
+            } else {
+                const checkedTrue = (record.answerGiven === '正确') ? 'checked' : '';
+                const checkedFalse = (record.answerGiven === '错误') ? 'checked' : '';
+                optsHtml = `<label class="option-item">
+                    <input type="radio" name="questionOption" value="正确" ${checkedTrue}>
+                    <span><i class="ph ph-check" style="color:var(--accent-emerald);margin-right:8px;"></i>正确</span>
+                </label><label class="option-item">
+                    <input type="radio" name="questionOption" value="错误" ${checkedFalse}>
+                    <span><i class="ph ph-x" style="color:var(--accent-rose);margin-right:8px;"></i>错误</span>
+                </label>`;
+            }
+            optionsArea.innerHTML = optsHtml;
+            submitBtn.disabled = false;
+
+            if (record.answered) {
+                const isCorrect = record.isCorrect;
+                const badgeClass = isCorrect ? 'correct-badge' : 'wrong-badge';
+                const badgeIcon = isCorrect ? 'ph-check-circle' : 'ph-x-circle';
+                const badgeText = isCorrect ? '回答正确' : '回答错误';
+                feedbackArea.innerHTML = `
+                    <strong class="${badgeClass}"><i class="ph-fill ${badgeIcon}"></i>${badgeText}</strong><br>
+                    <div style="margin-top:8px;display:flex;flex-direction:column;gap:4px;">
+                        <div><span style="color:var(--gray-500)">你的答案：</span><span style="font-weight:600;color:var(--gray-800)">${record.answerGiven || '无'}</span></div>
+                        <div><span style="color:var(--gray-500)">正确答案：</span><span style="font-weight:600;color:var(--accent-emerald)">${q.answer}</span></div>
+                        <div style="margin-top:6px;padding-top:10px;border-top:1px dashed var(--gray-200);"><span style="color:var(--gray-500)">解析：</span><span style="color:var(--gray-700)">${q.explain}</span></div>
+                    </div>
+                    <div class="hint-text"><i class="ph ph-lightbulb"></i>你可以重新选择答案并再次提交来修改作答记录。</div>`;
+            } else {
+                feedbackArea.innerHTML =
+                    '<div style="display:flex;align-items:center;gap:8px;color:var(--gray-500)"><i class="ph ph-lightbulb"></i>请选择一个选项后提交答案。</div>';
+            }
+            favBtn.innerHTML = favoriteSet.has(q.id) ?
+                '<i class="ph-fill ph-star" style="color:var(--accent-amber)"></i>已收藏' :
+                '<i class="ph ph-star"></i>收藏';
+            wrongBtn.innerHTML = wrongBookSet.has(q.id) ?
+                '<i class="ph-fill ph-push-pin" style="color:var(--accent-rose)"></i>移出错题本' :
+                '<i class="ph ph-push-pin"></i>加入错题本';
+        }
+
+        function submitAnswer() {
+            if (!currentQuestion) return;
+            const selectedRadio = document.querySelector('input[name="questionOption"]:checked');
+            if (!selectedRadio) {
+                feedbackArea.innerHTML =
+                    '<div style="display:flex;align-items:center;gap:8px;color:var(--accent-rose)"><i class="ph-fill ph-warning-circle"></i>请先选择一个答案！</div>';
+                return;
+            }
+            const selectedValue = selectedRadio.value;
+            const isCorrect = (selectedValue === currentQuestion.answer);
+            if (!userRecords[currentQuestion.id]) userRecords[currentQuestion.id] = {};
+            userRecords[currentQuestion.id].answered = true;
+            userRecords[currentQuestion.id].isCorrect = isCorrect;
+            userRecords[currentQuestion.id].answerGiven = selectedValue;
+            if (isCorrect) {
+                wrongBookSet.delete(currentQuestion.id);
+            } else {
+                wrongBookSet.add(currentQuestion.id);
+            }
+            saveUserData();
+            displayQuestion(currentQuestion);
+            renderQuestionList();
+            updateStats();
+        }
+
+        function toggleFavorite() {
+            if (!currentQuestion) return;
+            if (favoriteSet.has(currentQuestion.id)) favoriteSet.delete(currentQuestion.id);
+            else favoriteSet.add(currentQuestion.id);
+            saveUserData();
+            displayQuestion(currentQuestion);
+            renderQuestionList();
+            updateStats();
+        }
+
+        function toggleWrongBook() {
+            if (!currentQuestion) return;
+            if (wrongBookSet.has(currentQuestion.id)) {
+                wrongBookSet.delete(currentQuestion.id);
+            } else {
+                wrongBookSet.add(currentQuestion.id);
+            }
+            saveUserData();
+            displayQuestion(currentQuestion);
+            renderQuestionList();
+            updateStats();
+        }
+
+        function nextQuestion() {
+            if (!filteredQuestions.length) return;
+            currentIndex = (currentIndex + 1) % filteredQuestions.length;
+            displayQuestion(filteredQuestions[currentIndex]);
+            highlightSelectedListItem();
+        }
+
+        function prevQuestion() {
+            if (!filteredQuestions.length) return;
+            currentIndex = (currentIndex - 1 + filteredQuestions.length) % filteredQuestions.length;
+            displayQuestion(filteredQuestions[currentIndex]);
+            highlightSelectedListItem();
+        }
+
+        function updateStats() {
+            const total = questions.length;
+            let doneCount = 0,
+                correctCount = 0;
+            for (let q of questions) {
+                const rec = userRecords[q.id];
+                if (rec?.answered) {
+                    doneCount++;
+                    if (rec.isCorrect) correctCount++;
+                }
+            }
+            const percent = total ? Math.floor((doneCount / total) * 100) : 0;
+            progressFill.style.width = percent + '%';
+            percentText.innerText = percent + '%';
+            statsLabel.innerHTML =
+                `<i class="ph ph-info"></i><span>总题数：${total} | 已做：${doneCount} | 正确：${correctCount} | 错题本：${wrongBookSet.size} | 收藏：${favoriteSet.size}</span>`;
+        }
+
+        function setAllFilters(checked) {
+            gradeChecks.forEach(cb => cb.checked = checked);
+            typeChecks.forEach(cb => cb.checked = checked);
+            categoryChecks.forEach(cb => cb.checked = checked);
+            onlyUndone.checked = false;
+            onlyWrong.checked = false;
+            onlyFav.checked = false;
+            renderQuestionList();
+        }
+
+        function showWrongOnly() {
+            onlyWrong.checked = true;
+            onlyUndone.checked = false;
+            onlyFav.checked = false;
+            renderQuestionList();
+        }
+
+        function showFavOnly() {
+            onlyFav.checked = true;
+            onlyWrong.checked = false;
+            onlyUndone.checked = false;
+            renderQuestionList();
+        }
+
+        function clearWrongBook() {
+            if (confirm('确定清空错题本吗？')) {
+                wrongBookSet.clear();
+                saveUserData();
+                renderQuestionList();
+                if (currentQuestion) displayQuestion(currentQuestion);
+                updateStats();
+            }
+        }
+
+        function clearFavorite() {
+            if (confirm('清空收藏夹？')) {
+                favoriteSet.clear();
+                saveUserData();
+                renderQuestionList();
+                if (currentQuestion) displayQuestion(currentQuestion);
+                updateStats();
+            }
+        }
+
+        function clearHistory() {
+            if (confirm('清空所有做题记录？收藏夹和错题本也会重置。\n此操作不可逆。')) {
+                userRecords = {};
+                wrongBookSet.clear();
+                favoriteSet.clear();
+                saveUserData();
+                currentIndex = -1;
+                renderQuestionList();
+                updateStats();
+            }
+        }
+
+        filterToggle.addEventListener('click', () => {
+            const isCollapsed = filterContent.classList.contains('collapsed');
+            if (isCollapsed) {
+                filterContent.classList.remove('collapsed');
+                filterToggle.classList.remove('collapsed');
+            } else {
+                filterContent.classList.add('collapsed');
+                filterToggle.classList.add('collapsed');
+            }
+        });
+
+        const filterInputs = [...gradeChecks, ...typeChecks, ...categoryChecks, onlyUndone, onlyWrong, onlyFav];
+        filterInputs.forEach(el => el.addEventListener('change', () => renderQuestionList()));
+        selectAllBtn.addEventListener('click', () => setAllFilters(true));
+        clearFilterBtn.addEventListener('click', () => setAllFilters(false));
+        submitBtn.addEventListener('click', submitAnswer);
+        nextBtn.addEventListener('click', nextQuestion);
+        prevBtn.addEventListener('click', prevQuestion);
+        favBtn.addEventListener('click', toggleFavorite);
+        wrongBtn.addEventListener('click', toggleWrongBook);
+        showWrongBtn.addEventListener('click', showWrongOnly);
+        showFavBtn.addEventListener('click', showFavOnly);
+        clearWrongBtn.addEventListener('click', clearWrongBook);
+        clearFavBtn.addEventListener('click', clearFavorite);
+        clearHistoryBtn.addEventListener('click', clearHistory);
+
+        loadUserData();
+        renderQuestionList();
+    </script>
+</body>
+</html>
